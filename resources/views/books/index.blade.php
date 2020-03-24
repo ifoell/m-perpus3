@@ -8,8 +8,8 @@
             </div>
             {{ Breadcrumbs::render('books') }}
             <div class="text-right">
-                <a href="{{ route('books.create') }}" class="btn btn-primary">
-                    Add Book
+                <a href="{{ route('books.create') }}" >
+                    <x-button type="primary" title="Add Book"/>
                 </a>
             </div>
         </div>
