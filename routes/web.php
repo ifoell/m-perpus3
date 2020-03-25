@@ -18,3 +18,6 @@ Route::get('/', function () {
 });
 
 Route::resource('books', 'BooksController');
+Route::resource('publishers', 'PublishersController')->except([
+    'show', 'update', 'create'
+]);

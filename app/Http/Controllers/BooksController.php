@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Book;
+use App\Publisher;
 use Illuminate\Http\Request;
 
 class BooksController extends Controller
@@ -27,7 +28,8 @@ class BooksController extends Controller
     public function create()
     {
         //redirect to add new book page
-        return view('books.add');
+        $publishers = Publisher::all();
+        return view('books.add', compact('publishers'));
     }
 
     /**
@@ -41,6 +43,7 @@ class BooksController extends Controller
         //form validation
         $request->validate([
             'title'     => 'required',
+            'title_translate'=> 'nullable',
             'author'    => 'required',
             'editor'    => 'nullable',
             'copy_editor'=> 'nullable',
@@ -92,6 +95,7 @@ class BooksController extends Controller
         //submit edit
         $request->validate([
             'title'     => 'required',
+            'title_translate'=> 'nullable',
             'author'    => 'required',
             'editor'    => 'nullable',
             'copy_editor'=> 'nullable',

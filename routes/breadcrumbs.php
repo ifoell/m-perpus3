@@ -28,3 +28,7 @@ Breadcrumbs::for('book', function ($trail, $book) {
     $trail->parent('books');
     $trail->push($book->title, route('books.show', $book->id));
 });
+
+Breadcrumbs::for('publisher', function ($trail) {
+    $trail->push('Publisher', route('publishers.index'));
+});

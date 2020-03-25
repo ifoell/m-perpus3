@@ -13,12 +13,14 @@ class Button extends Component
      */
     public $type;
     public $title;
+    public $btn;
 
-    public function __construct($type, $title)
+    public function __construct($type, $title, $btn)
     {
         //
         $this->type = $type;
         $this->title = $title;
+        $this->btn = $btn;
     }
 
     /**

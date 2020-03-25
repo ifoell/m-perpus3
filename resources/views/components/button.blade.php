@@ -1,3 +1,1 @@
-<div>
-    <button class="btn btn-{{ $type }}">{{ $title }}</button>
-</div>
+<button class="btn btn-{{ $btn }}" type="{{ $type }}">{{ $title }}</button>

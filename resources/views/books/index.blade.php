@@ -9,7 +9,7 @@
             {{ Breadcrumbs::render('books') }}
             <div class="text-right">
                 <a href="{{ route('books.create') }}" >
-                    <x-button type="primary" title="Add Book"/>
+                    <x-button btn="primary" type="button" title="Add Book"/>
                 </a>
             </div>
         </div>
@@ -32,7 +32,7 @@
             <th>Publisher</th>
             <th>ISBN</th>
             <th>Edition</th>
-            <th width="280px">Action</th>
+            <th width="160px">Action</th>
         </tr>
 
         @foreach ($books as $key => $book)
@@ -45,12 +45,12 @@
                 <td>{{ $book->edition }}</td>
                 <td>
                     <form action="{{ route('books.destroy', $book->id) }}" method="post">
-                        <a href="{{ route('books.show', $book->id) }}" class="btn btn-info">Show</a>
-                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-success">Edit</a>
+                        <a href="{{ route('books.show', $book->id) }}" class="btn btn-sm btn-info"><ion-icon name="eye"></ion-icon></a>
+                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-sm btn-success"><ion-icon name="create"></ion-icon></a>
                             
                         @csrf
                         @method('delete')
-                        <button type="submit" class="btn btn-danger">Delete</button>
+                        <button type="submit" class="btn btn-sm btn-danger"><ion-icon name="trash"></ion-icon></button>
                     </form>
                 </td>
             </tr>
