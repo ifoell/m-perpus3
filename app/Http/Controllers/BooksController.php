@@ -16,7 +16,7 @@ class BooksController extends Controller
     public function index()
     {
         //get all data
-        $books = Book::all();
+        $books = Book::with(['publisher'])->orderBy('title', 'ASC')->get();
         return view('books.index', compact('books'));
     }
 
@@ -47,7 +47,7 @@ class BooksController extends Controller
             'author'    => 'required',
             'editor'    => 'nullable',
             'copy_editor'=> 'nullable',
-            'publisher' => 'required',
+            'publisher_id' => 'required',
             'isbn'      => 'required|unique:books',
             'edition'   => 'nullable',
             'description'=> 'nullable'
@@ -68,7 +68,10 @@ class BooksController extends Controller
     public function show(Book $book)
     {
         //read data
-        return view('books.detail', compact('book'));
+        $publisher_id = $book->publisher_id;
+        $publisher = publisher::find($publisher_id);
+        $publisher_name = $publisher->name;
+        return view('books.detail', compact('book','publisher_name'));
     }
 
     /**
@@ -80,7 +83,8 @@ class BooksController extends Controller
     public function edit(Book $book)
     {
         //page edit data
-        return view('books.edit', compact('book'));
+        $publishers = Publisher::all();
+        return view('books.edit', compact('book', 'publishers'));
     }
 
     /**
@@ -99,7 +103,7 @@ class BooksController extends Controller
             'author'    => 'required',
             'editor'    => 'nullable',
             'copy_editor'=> 'nullable',
-            'publisher' => 'required',
+            'publisher_id' => 'required',
             'isbn'      => 'required',
             'edition'   => 'nullable',
             'description'=> 'nullable'

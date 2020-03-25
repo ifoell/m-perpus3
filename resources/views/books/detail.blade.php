@@ -49,6 +49,10 @@
                             <td>: {{ $book->copy_editor }}</td>
                         </tr>
                         <tr>
+                            <td><b>Publisher</b></td>
+                            <td>: {{ $publisher_name }}</td>
+                        </tr>
+                        <tr>
                             <td><b>ISBN</b></td>
                             <td>: {{ $book->isbn }}</td>
                         </tr>

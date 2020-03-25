@@ -7,6 +7,7 @@
 <link rel="stylesheet" href="{{asset('assets/vendor/@fortawesome/fontawesome-free/css/all.min.css')}}" type="text/css">
 <!-- Page plugins -->
 <!-- Argon CSS -->
+<link rel="stylesheet" href="{{asset('assets/vendor/select2/dist/css/select2.min.css')}}">
 <link rel="stylesheet" href="{{asset('assets/css/argon.css?v=1.1.0')}}" type="text/css">
 
 <link href="{{asset('assets/vendor/datatables.net/css/jquery.dataTables.min.css')}}" rel="stylesheet">

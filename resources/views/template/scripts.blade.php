@@ -8,6 +8,7 @@
 <script src="{{asset('assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js')}}"></script>
 <script src="{{asset('assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js')}}"></script>
 <!-- Argon JS -->
+<script src="{{asset('assets/vendor/select2/dist/js/select2.min.js')}}"></script>
 <script src="{{asset('assets/js/argon.js?v=1.1.0')}}"></script>
 
 <script src="{{asset('assets/js/popper.min.js')}}"></script>

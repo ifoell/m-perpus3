@@ -17,9 +17,13 @@ class Book extends Model
         'author',
         'editor',
         'copy_editor',
-        'publisher',
+        'publisher_id',
         'isbn',
         'edition',
         'description'
     ];
+    public function publisher()
+    {
+        return $this->belongsTo('App\publisher');
+    }
 }

@@ -176,6 +176,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Yajra\Datatables\DatatablesServiceProvider::class,
+        Harimayco\Menu\MenuServiceProvider::class,
 
     ],
 
@@ -230,6 +231,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
         'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        'Menu' => Harimayco\Menu\Facades\Menu::class,
 
     ],
 

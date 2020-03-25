@@ -70,9 +70,9 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="publisher">Publisher</label>
-                                    <select name="publisher" id="publisher" class="form-control">
-                                        <option value="">~ Select Publisher ~</option>
+                                    <label for="publisher_id">Publisher</label>
+                                    <select name="publisher_id" id="publisher_id" class="form-control" data-toggle="select">
+                                        <option value="" selected disabled>~ Select Publisher ~</option>
                                         @foreach ($publishers as $p)
                                         <option value="{{ $p->id }}">{{ $p->name }}</option>
                                         @endforeach

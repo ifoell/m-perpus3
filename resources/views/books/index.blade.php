@@ -57,7 +57,7 @@
                                 <td>{{ $key+1 }}</td>
                                 <td>{{ $book->title }}</td>
                                 <td>{{ $book->author }}</td>
-                                <td>{{ $book->publisher }}</td>
+                                <td>{{ $book->publisher->name }}</td>
                                 <td>{{ $book->isbn }}</td>
                                 <td>{{ $book->edition }}</td>
                                 <td>
