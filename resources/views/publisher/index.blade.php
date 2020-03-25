@@ -1,69 +1,102 @@
-@extends('template.layout')
-
+@extends('template.layout2')
+@section('title', 'Publisher Data')
 @section('content')
+<!-- Header -->
+<div class="header bg-primary pb-6">
+    <div class="container-fluid">
+        <div class="header-body">
+            <div class="row align-items-center py-4">
+                <div class="col-lg-6 col-7">
+                    <h6 class="h2 text-white d-inline-block mb-0">@yield('title')</h6>
+                    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
+                        {{ Breadcrumbs::render('publisher') }}
+                    </nav>
+                </div>
+
+                <div class="col-lg-6 col-5 text-right">
+                    <a href="javascript:void(0)" id="addNew" class="btn btn-sm btn-neutral">Add Publisher</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page content -->
+<div class="container-fluid mt--6">
+
     <div class="row">
-        <div class="col-lg-12 margin-tb mt-3 mb-3">
-            <div class="text-left">
-                <h2>Publisher Data</h2>
-            </div>
-            {{ Breadcrumbs::render('publisher') }}
-            <div class="text-right">
-                <a href="javascript:void(0)" id="addNew" class="btn btn-primary">Add Publisher</a>
-            </div>
-        </div>
-    </div>
+        <div class="col-xl-12 col-lg-12 margin-tb mt-3 mb-3">
+            <!-- Members list group card -->
+            <div class="card">
+                <!-- Card body -->
+                <div class="card-body">
+                    @if ($message = Session::get('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>
+                            <p>{{ $message }}</p>
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
 
-    <table class="table table-responsive table-primary table-bordered data-table">
-        <thead>
-            <tr>
-                <th width="2%">#</th>
-                <th width="20%">Name</th>
-                <th>Address</th>
-                <th width="10%">Action</th>
-            </tr>
-        </thead>
-    </table>
-
-    <div id="ajaxModel" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modelHeading"></h5>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <form id="publisherForm" name="publisherForm" class="form-horizontal">
-                        <input type="hidden" name="publisher_id" id="publisher_id">
-                        
-                        <div class="form-group">
-                            <label for="name" class="col-sm-2">Name</label>
-                            <div class="col-sm-12">
-                                <input type="text" name="name" id="name" class="form-control" placeholder="Type the name of publisher" value="" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="address" class="col-sm-2">Address</label>
-                            <div class="col-sm-12">
-                                <textarea class="form-control" name="address" id="address" cols="10" rows="3" placeholder="Type Description"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="description" class="col-sm-2">Description</label>
-                            <div class="col-sm-12">
-                                <textarea class="form-control" name="description" id="description" cols="10" rows="5" placeholder="Type Description"></textarea>
-                            </div>
-                        </div>
-
-                        <div class="text-right">
-                            <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save Changes</button>
-                        </div>
-                    </form>
+                    <div class="table-responsive py-4">
+                        <table class="table table-primary table-bordered data-table">
+                            <thead>
+                                <tr>
+                                    <th width="2%">#</th>
+                                    <th width="20%">Name</th>
+                                    <th>Address</th>
+                                    <th width="10%">Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
+        <div id="ajaxModel" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modelHeading"></h5>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="publisherForm" name="publisherForm" class="form-horizontal">
+                            <input type="hidden" name="publisher_id" id="publisher_id">
+                            
+                            <div class="form-group">
+                                <label for="name" class="col-sm-2">Name</label>
+                                <div class="col-sm-12">
+                                    <input type="text" name="name" id="name" class="form-control" placeholder="Type the name of publisher" value="" required>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="address" class="col-sm-2">Address</label>
+                                <div class="col-sm-12">
+                                    <textarea class="form-control" name="address" id="address" cols="10" rows="3" placeholder="Type Description"></textarea>
+                                </div>
+                            </div>
+    
+                            <div class="form-group">
+                                <label for="description" class="col-sm-2">Description</label>
+                                <div class="col-sm-12">
+                                    <textarea class="form-control" name="description" id="description" cols="10" rows="5" placeholder="Type Description"></textarea>
+                                </div>
+                            </div>
+    
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary" id="saveBtn" value="create">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
 
 @endsection
 

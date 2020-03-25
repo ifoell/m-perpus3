@@ -12,19 +12,23 @@
 //     // $trail->push('Books', route('books'));
 // });
 
+Breadcrumbs::for('dashboard', function ($trail) {
+    $trail->push('Dashboard', route('dashboard'));
+});
+
 Breadcrumbs::for('books', function ($trail) {
     $trail->push('Books', route('books.index'));
 });
 
 // Books > Add
-Breadcrumbs::for('add', function ($trail) {
+Breadcrumbs::for('add_book', function ($trail) {
     $trail->parent('books');
-    $trail->push('Add', route('books.create'));
+    $trail->push('Add Book', route('books.create'));
 });
 
 // Books > show/edit > title
 
-Breadcrumbs::for('book', function ($trail, $book) {
+Breadcrumbs::for('detail_book', function ($trail, $book) {
     $trail->parent('books');
     $trail->push($book->title, route('books.show', $book->id));
 });

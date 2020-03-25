@@ -13,10 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
+Route::get('/', 'HomeController@index')->name('dashboard');
 Route::resource('books', 'BooksController');
 Route::resource('publishers', 'PublishersController')->except([
     'show', 'update', 'create'

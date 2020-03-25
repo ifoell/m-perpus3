@@ -19,7 +19,7 @@ class PublishersController extends Controller
             return Datatables::of(Publisher::latest()->get())
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
-                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editPublisher"><ion-icon name="eye"></ion-icon></a>';
+                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editPublisher"><ion-icon name="create"></ion-icon></a>';
                         $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deletePublisher"><ion-icon name="trash"></ion-icon></a>';
                         return $btn;
                     })
