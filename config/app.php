@@ -177,6 +177,7 @@ return [
 
         Yajra\Datatables\DatatablesServiceProvider::class,
         Harimayco\Menu\MenuServiceProvider::class,
+        Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
 
     ],
 

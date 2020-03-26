@@ -15,6 +15,7 @@
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
         "harimayco/laravel-menu": "^1.4",
+        "kyslik/column-sortable": "^6.3",
         "laravel/framework": "^7.0",
         "laravel/tinker": "^2.0",
         "yajra/laravel-datatables-oracle": "^9.9"

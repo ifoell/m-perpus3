@@ -40,44 +40,56 @@
                     </div>
                     @endif
 
-                    <div class="table-responsive">
+                    <div class="table-responsive" id="booksTable" data-toggle="list" data-list-values='["title", "author", "publisher", "isbn"]'>
                         <table class="table align-items-center table-flush table-striped table-hover">
-                            <tr>
-                                <th>#</th>
-                                <th>Title</th>
-                                <th>Author</th>
-                                <th>Publisher</th>
-                                <th>ISBN</th>
-                                <th>Edition</th>
-                                <th width="160px">Action</th>
-                            </tr>
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col" class="sort" data-sort="title">Title</th>
+                                    <th scope="col" class="sort" data-sort="author">Author</th>
+                                    <th scope="col" class="sort" data-sort="publisher">Publisher</th>
+                                    <th scope="col" class="sort" data-sort="isbn">isbn</th>
+                                    <th scope="col">Edition</th>
+                                    <th scope="col" width="160px">Action</th>
+                                </tr>
+                            </thead>
 
                             @foreach ($books as $key => $book)
-                            <tr>
-                                <td>{{ $key+1 }}</td>
-                                <td>{{ $book->title }}</td>
-                                <td>{{ $book->author }}</td>
-                                <td>{{ $book->publisher->name }}</td>
-                                <td>{{ $book->isbn }}</td>
-                                <td>{{ $book->edition }}</td>
-                                <td>
-                                    <form action="{{ route('books.destroy', $book->id) }}" method="post">
-                                        <a href="{{ route('books.show', $book->id) }}" class="btn btn-sm btn-info">
-                                            <i class="ni ni-zoom-split-in"></i></a>
-                                        <a href="{{ route('books.edit', $book->id) }}" class="btn btn-sm btn-success">
-                                            <i class="ni ni-ruler-pencil"></i>
-                                        </a>
+                            <tbody class="list">
+                                <tr>
+                                    <td scope="row">{{ $key+1 }}</td>
+                                    <td>{{ $book->title }}</td>
+                                    <td>{{ Str::limit($book->author,20) }}</td>
+                                    <td>{{ Str::limit($book->publisher->name,20) }}</td>
+                                    <td>{{ $book->isbn }}</td>
+                                    <td>{{ Str::limit($book->edition,16) }}</td>
+                                    <td>
+                                        <form action="{{ route('books.destroy', $book->id) }}" method="post">
+                                            <a href="{{ route('books.show', $book->id) }}" class="btn btn-sm btn-info">
+                                                <i class="ni ni-zoom-split-in"></i></a>
+                                            <a href="{{ route('books.edit', $book->id) }}" class="btn btn-sm btn-success">
+                                                <i class="ni ni-ruler-pencil"></i>
+                                            </a>
 
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" class="btn btn-sm btn-danger">
-                                            <i class="ni ni-fat-remove"></i>
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
+                                            @csrf
+                                            @method('delete')
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="ni ni-fat-remove"></i>
+                                            </button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </tbody>
                             @endforeach
                         </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <small>Page : {{ $books->currentPage() }}</small> &nbsp;&nbsp;&nbsp; |
+                    <small>Total Data : {{ $books->total() }}</small>&nbsp;&nbsp;&nbsp; |
+                    <small>Data per Page : {{ $books->perPage() }}</small>
+                    <div class="float-right">
+                        <small>{{ $books->links() }}</small>
                     </div>
                 </div>
             </div>

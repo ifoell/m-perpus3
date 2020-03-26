@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Kyslik\ColumnSortable\Sortable;
 
 class Book extends Model
 {
@@ -22,6 +23,8 @@ class Book extends Model
         'edition',
         'description'
     ];
+    use Sortable;
+    public $sortable = ['title', 'author', 'publisher'];
     public function publisher()
     {
         return $this->belongsTo('App\publisher');

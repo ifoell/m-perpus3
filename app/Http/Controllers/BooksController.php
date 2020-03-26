@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Book;
 use App\Publisher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class BooksController extends Controller
 {
@@ -16,7 +18,7 @@ class BooksController extends Controller
     public function index()
     {
         //get all data
-        $books = Book::with(['publisher'])->orderBy('title', 'ASC')->get();
+        $books = Book::with(['publisher'])->sortable()->paginate(10);
         return view('books.index', compact('books'));
     }
 
