@@ -104,4 +104,37 @@ class PublishersController extends Controller
 
         return response()->json(['success' => 'Publisher deleted successfully']);
     }
+
+    // for api
+
+    /**
+     * @OA\Get(
+     *     path="/api/publishers/getall",
+     *     tags={"Publishers"},
+     *     summary="Returns all Publishers Data",
+     *     description="API Publishers",
+     *     operationId="getpublishers",
+     *     
+     *     @OA\Response(
+     *         response=200,
+     *         description="successful operation",
+     *         @OA\JsonContent(
+     *              @OA\AdditionalProperties(
+     *                  type="integer",
+     *                  format="int32"
+     *              )
+     *          )
+     *     ),
+     *     
+     *     @OA\Response(
+     *         response="default",
+     *         description="Success get all data"
+     *     )
+     * )
+     */
+
+    public function apipublishers()
+    {
+        return Publisher::all();
+    }
 }

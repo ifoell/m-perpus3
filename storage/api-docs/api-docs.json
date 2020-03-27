@@ -1,0 +1,348 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API M-Perpus",
+        "description": "API M-Perpus Documentaion",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "syaifulhaqalfuruqi@gmail.com"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/books/getall": {
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Returns all Books Data",
+                "description": "API Books",
+                "operationId": "getbooks",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "additionalProperties": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Success get all data"
+                    }
+                }
+            }
+        },
+        "/api/books/add": {
+            "post": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Add Books",
+                "description": "add Books",
+                "operationId": "addbooks",
+                "parameters": [
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Title",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "author",
+                        "in": "query",
+                        "description": "Author",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "editor",
+                        "in": "query",
+                        "description": "Editor",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "copy_editor",
+                        "in": "query",
+                        "description": "Copy Editor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isbn",
+                        "in": "query",
+                        "description": "ISBN",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "edition",
+                        "in": "query",
+                        "description": "Edition",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Description",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "publisher_id",
+                        "in": "query",
+                        "description": "Publisher",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "Success get all data"
+                    }
+                }
+            }
+        },
+        "/api/books/read/{id}": {
+            "get": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Returns selected Book Data",
+                "description": "API Books",
+                "operationId": "getselectedbooks",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Books ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "additionalProperties": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Success get all data"
+                    }
+                }
+            }
+        },
+        "/api/books/edit/{id}": {
+            "put": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Edit Books",
+                "description": "Edit Books",
+                "operationId": "editbooks",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id Books",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "title",
+                        "in": "query",
+                        "description": "Title",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "author",
+                        "in": "query",
+                        "description": "Author",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "editor",
+                        "in": "query",
+                        "description": "Editor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "copy_editor",
+                        "in": "query",
+                        "description": "Copy Editor",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isbn",
+                        "in": "query",
+                        "description": "ISBN",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "edition",
+                        "in": "query",
+                        "description": "Edition",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Description",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "publisher_id",
+                        "in": "query",
+                        "description": "Publisher",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "default": {
+                        "description": "Success get all data"
+                    }
+                }
+            }
+        },
+        "/api/books/delete/{id}": {
+            "delete": {
+                "tags": [
+                    "Books"
+                ],
+                "summary": "Returns deleted",
+                "description": "API Books",
+                "operationId": "deletebooks",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Books ID",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "additionalProperties": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Success get all data"
+                    }
+                }
+            }
+        },
+        "/api/publishers/getall": {
+            "get": {
+                "tags": [
+                    "Publishers"
+                ],
+                "summary": "Returns all Publishers Data",
+                "description": "API Publishers",
+                "operationId": "getpublishers",
+                "responses": {
+                    "200": {
+                        "description": "successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "additionalProperties": {
+                                        "type": "integer",
+                                        "format": "int32"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "default": {
+                        "description": "Success get all data"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "api_key": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    }
+}

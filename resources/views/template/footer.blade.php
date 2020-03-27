@@ -1,4 +1,4 @@
-<footer class="footer pt-0 col-11">
+<footer class="footer pt--0 pb-0 pr-3 pl-3 col-auto">
     <div class="row align-items-center justify-content-lg-between">
       <div class="col-lg-6">
         <div class="copyright text-center text-lg-left text-muted">

@@ -160,6 +160,7 @@
                    success: function (data) {
                        $('#publisherForm').trigger("reset");
                        $('#ajaxModel').modal('hide');
+                       $('#saveBtn').html('Save Changes');
                        table.draw();
                    },
 

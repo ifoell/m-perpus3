@@ -178,6 +178,7 @@ return [
         Yajra\Datatables\DatatablesServiceProvider::class,
         Harimayco\Menu\MenuServiceProvider::class,
         Kyslik\ColumnSortable\ColumnSortableServiceProvider::class,
+        L5Swagger\L5SwaggerServiceProvider::class,
 
     ],
 

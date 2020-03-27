@@ -72,7 +72,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="publisher_id">Publisher</label>
-                                    <select name="publisher_id" id="publisher_id" class="form-control" data-toggle="select">
+                                    <select name="publisher_id" id="publisher_id" class="publisher_id form-control" data-toggle="select">
                                         <option value="">~ Select Publisher ~</option>
                                         @foreach ($publishers as $p)
                                         <option value="{{ $p->id }}" {{ ($book->publisher_id == $p->id) ? 'selected' : '' }}>{{ $p->name }}</option>
@@ -116,7 +116,6 @@
 @endsection
 
 @push('styles')
-
 @endpush
 
 @push('scripts')

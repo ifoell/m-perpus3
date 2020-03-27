@@ -33,7 +33,7 @@ Software.
                     @else
                     <a class="navbar-brand" href="{{ route('dashboard') }}">
                         @endif
-                        <img src="../../assets/img/brand/blue.png" class="navbar-brand-img" alt="...">
+                        <h2>M-Perpus</h2>
                     </a>
                     <div class="ml-auto">
                         <!-- Sidenav toggler -->
@@ -57,6 +57,7 @@ Software.
         <!-- Footer -->
         @include('template.footer')
     </div>
+    
     @include('template.scripts')
 </body>
 

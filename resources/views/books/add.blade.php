@@ -17,7 +17,7 @@
     </div>
 </div>
 <!-- Page content -->
-<div class="container-fluid mt--6">
+<div class="container-fluid mt--6 pb-5">
 
     <div class="row">
         <div class="col-xl-8 col-lg-8 margin-tb">
@@ -71,11 +71,11 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="publisher_id">Publisher</label>
-                                    <select name="publisher_id" id="publisher_id" class="form-control" data-toggle="select">
+                                    <select name="publisher_id" id="publisher_id" class="publisher_name form-control" data-toggle="select">
                                         <option value="" selected disabled>~ Select Publisher ~</option>
-                                        @foreach ($publishers as $p)
+                                        {{-- @foreach ($publishers as $p)
                                         <option value="{{ $p->id }}">{{ $p->name }}</option>
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                             </div>
@@ -113,3 +113,42 @@
 </div>
 
 @endsection
+
+@push('styles')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endpush
+
+@push('scripts')
+    <script>
+        // csrf token
+        var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+        $(document).ready(function(){
+
+            $("#publisher_id").select2({
+                ajax: {
+                    url: "{{ route('get_publisher') }}",
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            _token: CSRF_TOKEN,
+                            search:  params.term //search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            // results: response
+                            results: $.map(response, function(obj) {
+                                return { id: obj.id, text: obj.name };
+                            })
+                        };
+                    },
+                    cache: true
+                }
+
+            });
+
+        });
+    </script>
+@endpush

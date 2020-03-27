@@ -18,3 +18,4 @@ Route::resource('books', 'BooksController');
 Route::resource('publishers', 'PublishersController')->except([
     'show', 'update', 'create'
 ]);
+Route::post('/getpublisher_name', 'Select2Controller@publisher_name')->name('get_publisher');

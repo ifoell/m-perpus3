@@ -17,3 +17,15 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['prefix' => 'books'], function () {
+    Route::get('getall', 'BooksController@apibooks');
+    Route::get('/read/{id}', 'BooksController@apireadbooks');
+    Route::post('add', 'BooksController@apiaddbooks');
+    Route::put('/edit/{id}', 'BooksController@apiupdatebooks');
+    Route::delete('/delete/{id}', 'BooksController@apideletebooks'); 
+});
+
+Route::group(['prefix' => 'publishers'], function () {
+    Route::get('getall', 'publishersController@apipublishers');
+});
