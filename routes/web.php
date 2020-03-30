@@ -13,9 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'HomeController@index')->name('dashboard');
-Route::resource('books', 'BooksController');
-Route::resource('publishers', 'PublishersController')->except([
-    'show', 'update', 'create'
-]);
+Route::redirect('/', 'admin/');
+Route::group(['prefix' => 'admin'], function () {
+    Route::get('/', 'HomeController@index')->name('dashboard');
+    Route::resource('books', 'BooksController');
+    Route::resource('publishers', 'PublishersController')->except([
+        'show', 'update', 'create'
+    ]);
+});
+
 Route::post('/getpublisher_name', 'Select2Controller@publisher_name')->name('get_publisher');

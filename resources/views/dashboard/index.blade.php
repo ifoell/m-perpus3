@@ -1,7 +1,7 @@
 @extends('template.layout2')
 @section('title', 'Dashboard')
 @section('content')
-    <!-- Header -->
+<!-- Header -->
 <div class="header bg-primary pb-6">
     <div class="container-fluid">
         <div class="header-body">
@@ -83,209 +83,173 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
     <div class="row">
         <div class="col-xl-4">
             <!-- Members list group card -->
             <div class="card">
                 <!-- Card header -->
-                <div class="card-header">
+                <div class="card-header bg-gradient-info">
+                    <div class="row">
                     <!-- Title -->
-                    <h5 class="h3 mb-0">Team members</h5>
+                    <h5 class="h3 mb-0 pl-3">Data COVID19 Indonesia</h5>
+                    <div class="col text-right">
+                        <a href="#seeall" class="btn btn-sm btn-primary float-right">See all</a>
+                      </div>
+                    </div>
                 </div>
                 <!-- Card body -->
                 <div class="card-body">
                     <!-- List group -->
                     <ul class="list-group list-group-flush list my--3">
                         <li class="list-group-item px-0">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <!-- Avatar -->
-                                    <a href="#" class="avatar rounded-circle">
-                                        <img alt="Image placeholder" src="../../assets/img/theme/team-1.jpg">
-                                    </a>
-                                </div>
-                                <div class="col ml--2">
-                                    <h4 class="mb-0">
-                                        <a href="#!">John Michael</a>
-                                    </h4>
-                                    <span class="text-success">●</span>
-                                    <small>Online</small>
+                            <div class="row align-items-center checklist-item checklist-item-warning">
+
+                                <div class="col">
+                                    <h3 class="mb-0">
+                                        <i class="fas fa-info-circle" style="color: orange"></i>
+                                        Total Confirmed Cases
+                                    </h3>
                                 </div>
                                 <div class="col-auto">
-                                    <button type="button" class="btn btn-sm btn-primary">Add</button>
+                                    <h4 class="mb-0">{{ $covidindo->confirmed->value }}</h4>
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item px-0">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <!-- Avatar -->
-                                    <a href="#" class="avatar rounded-circle">
-                                        <img alt="Image placeholder" src="../../assets/img/theme/team-2.jpg">
-                                    </a>
-                                </div>
-                                <div class="col ml--2">
-                                    <h4 class="mb-0">
-                                        <a href="#!">Alex Smith</a>
-                                    </h4>
-                                    <span class="text-warning">●</span>
-                                    <small>In a meeting</small>
+                            <div class="row align-items-center checklist-item checklist-item-success">
+                                <div class="col">
+                                    <h3 class="mb-0">
+                                        <i class="fas fa-check-circle" style="color: green"></i>
+                                        Total Recovered
+                                    </h3>
                                 </div>
                                 <div class="col-auto">
-                                    <button type="button" class="btn btn-sm btn-primary">Add</button>
+                                    <h4 class="mb-0">{{ $covidindo->recovered->value }}</h4>
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item px-0">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <!-- Avatar -->
-                                    <a href="#" class="avatar rounded-circle">
-                                        <img alt="Image placeholder" src="../../assets/img/theme/team-3.jpg">
-                                    </a>
-                                </div>
-                                <div class="col ml--2">
-                                    <h4 class="mb-0">
-                                        <a href="#!">Samantha Ivy</a>
-                                    </h4>
-                                    <span class="text-danger">●</span>
-                                    <small>Offline</small>
+                            <div class="row align-items-center checklist-item checklist-item-danger">
+
+                                <div class="col">
+                                    <h3 class="mb-0">
+                                        <i class="fas fa-skull" style="color: red"></i>
+                                        Total Death
+                                    </h3>
                                 </div>
                                 <div class="col-auto">
-                                    <button type="button" class="btn btn-sm btn-primary">Add</button>
+                                    <h4 class="mb-0">{{ $covidindo->deaths->value }}</h4>
                                 </div>
                             </div>
                         </li>
                         <li class="list-group-item px-0">
-                            <div class="row align-items-center">
-                                <div class="col-auto">
-                                    <!-- Avatar -->
-                                    <a href="#" class="avatar rounded-circle">
-                                        <img alt="Image placeholder" src="../../assets/img/theme/team-4.jpg">
-                                    </a>
-                                </div>
-                                <div class="col ml--2">
-                                    <h4 class="mb-0">
-                                        <a href="#!">John Michael</a>
-                                    </h4>
-                                    <span class="text-success">●</span>
-                                    <small>Online</small>
+                            <div class="row align-items-center checklist-item checklist-item-info">
+
+                                <div class="col">
+                                    <h3 class="mb-0">
+                                        <i class="fas fa-hospital-alt" style="color: blue"></i>
+                                        Total ActiveCare
+                                    </h3>
                                 </div>
                                 <div class="col-auto">
-                                    <button type="button" class="btn btn-sm btn-primary">Add</button>
+                                    <h4 class="mb-0">{{ $covidindo->activeCare->value }}</h4>
                                 </div>
                             </div>
                         </li>
                     </ul>
+                </div>
+                <div class="card-footer">
+                    <small>Last Updated At : <strong>{{ Str::replaceFirst('T', ' ', $covidindo->metadata->lastUpdatedAt). ' ('.time_elapsed_string($covidindo->metadata->lastUpdatedAt).')' }}</strong></small>
                 </div>
             </div>
         </div>
         <div class="col-xl-4">
             <!-- Checklist -->
-            <div class="card">
+            <div class="card pray-time">
                 <!-- Card header -->
-                <div class="card-header">
+                <div class="card-header bg-gradient-success">
                     <!-- Title -->
-                    <h5 class="h3 mb-0">To do list</h5>
-                </div>
-                <!-- Card body -->
-                <div class="card-body p-0">
-                    <!-- List group -->
-                    <ul class="list-group list-group-flush" data-toggle="checklist">
-                        <li class="checklist-entry list-group-item flex-column align-items-start py-4 px-4">
-                            <div class="checklist-item checklist-item-success">
-                                <div class="checklist-info">
-                                    <h5 class="checklist-title mb-0">Call with Dave</h5>
-                                    <small>10:30 AM</small>
-                                </div>
-                                <div>
-                                    <div class="custom-control custom-checkbox custom-checkbox-success">
-                                        <input class="custom-control-input" id="chk-todo-task-1" type="checkbox"
-                                            checked>
-                                        <label class="custom-control-label" for="chk-todo-task-1"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="checklist-entry list-group-item flex-column align-items-start py-4 px-4">
-                            <div class="checklist-item checklist-item-warning">
-                                <div class="checklist-info">
-                                    <h5 class="checklist-title mb-0">Lunch meeting</h5>
-                                    <small>10:30 AM</small>
-                                </div>
-                                <div>
-                                    <div class="custom-control custom-checkbox custom-checkbox-warning">
-                                        <input class="custom-control-input" id="chk-todo-task-2" type="checkbox">
-                                        <label class="custom-control-label" for="chk-todo-task-2"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="checklist-entry list-group-item flex-column align-items-start py-4 px-4">
-                            <div class="checklist-item checklist-item-info">
-                                <div class="checklist-info">
-                                    <h5 class="checklist-title mb-0">Argon Dashboard Launch</h5>
-                                    <small>10:30 AM</small>
-                                </div>
-                                <div>
-                                    <div class="custom-control custom-checkbox custom-checkbox-info">
-                                        <input class="custom-control-input" id="chk-todo-task-3" type="checkbox">
-                                        <label class="custom-control-label" for="chk-todo-task-3"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                        <li class="checklist-entry list-group-item flex-column align-items-start py-4 px-4">
-                            <div class="checklist-item checklist-item-danger">
-                                <div class="checklist-info">
-                                    <h5 class="checklist-title mb-0">Winter Hackaton</h5>
-                                    <small>10:30 AM</small>
-                                </div>
-                                <div>
-                                    <div class="custom-control custom-checkbox custom-checkbox-danger">
-                                        <input class="custom-control-input" id="chk-todo-task-4" type="checkbox"
-                                            checked>
-                                        <label class="custom-control-label" for="chk-todo-task-4"></label>
-                                    </div>
-                                </div>
-                            </div>
-                        </li>
-                    </ul>
+                    <h5 class="h3 mb-0">Prayer Times</h5>
                 </div>
             </div>
         </div>
         <div class="col-xl-4">
             <div class="card widget-calendar">
                 <!-- Card header -->
-                <div class="card-header">
+                <div class="card-header bg-gradient-orange">
                     <div class="row">
-                        
-                    <div class="col-6">
-                        
-                  <div class="col-12 h5 text-muted mb-1 widget-calendar-year"></div>
-                  <div class="col-12 h3 mb-0 widget-calendar-day"></div>
-                </div>
-                <div class="col-6 text-right">
-                  <a href="#" class="fullcalendar-btn-prev btn btn-sm btn-neutral">
-                    <i class="fas fa-angle-left"></i>
-                  </a>
-                  <a href="#" class="fullcalendar-btn-now btn btn-sm btn-neutral">
-                    <i class="fas fa-circle"></i>
-                  </a>
-                  <a href="#" class="fullcalendar-btn-next btn btn-sm btn-neutral">
-                    <i class="fas fa-angle-right"></i>
-                  </a>
-                </div>
-                </div>
+
+                        <div class="col-6">
+
+                            <div class="col-12 h4 text-muted mb-1 widget-calendar-year text-gray-dark"></div>
+                            <div class="col-12 h3 mb-0 widget-calendar-day"></div>
+                        </div>
+                        <div class="col-6 text-right">
+                            <a href="#" class="fullcalendar-btn-prev btn btn-sm btn-neutral">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+                            <a href="#" class="fullcalendar-btn-now btn btn-sm btn-neutral">
+                                <i class="fas fa-circle"></i>
+                            </a>
+                            <a href="#" class="fullcalendar-btn-next btn btn-sm btn-neutral">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
                 <!-- Card body -->
                 <div class="card-body">
-                  <div data-toggle="widget-calendar"></div>
+                    <div data-toggle="widget-calendar"></div>
+                </div>
+            </div>
+        </div>
+
+            <div class="col-xl-12" id="seeall">
+              <div class="card">
+                <div class="card-header border-0 bg-gradient-teal">
+                  <div class="row align-items-center">
+                    <div class="col">
+                      <h3 class="mb-0">Data Covid Indonesia per Provinsi</h3>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <!-- Projects table -->
+                  <table class="table align-items-center table-flush">
+                    <thead class="thead-light">
+                      <tr>
+                        <th>#</th>
+                        <th scope="col" style="color: black"><i class="fas fa-map-marked"></i> Provinsi</th>
+                        <th scope="col" style="color: orange"><i class="fas fa-clinic-medical"></i> Kasus Positif</th>
+                        <th scope="col" style="color: green"><i class="fas fa-heart"></i> Kasus Sembuh</th>
+                        <th scope="col" style="color: red"><i class="fas fa-skull-crossbones"></i> Kasus Meninggal</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($covidprov as $cvp)
+                      <tr>
+                        <th scope="row">{{ $loop->iteration }}</th>
+                        <td>
+                            {{ $cvp->attributes->Provinsi }}
+                        </td>
+                        <td>
+                          {{ $cvp->attributes->Kasus_Posi }}
+                        </td>
+                        <td>
+                            {{ $cvp->attributes->Kasus_Semb }}
+                        </td>
+                        <td>
+                            {{ $cvp->attributes->Kasus_Meni }}
+                        </td>
+                      </tr>
+                      @endforeach
+                    </tbody>
+                  </table>
                 </div>
               </div>
-        </div>
+            </div>
     </div>
 </div>
 
@@ -299,4 +263,5 @@
 <script src="{{ asset('assets/vendor/moment/min/moment.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/fullcalendar/dist/fullcalendar.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/fullcalendar/dist/gcal.min.js') }}"></script>
+<script src="{{ asset('assets/js/prayer.js') }}"></script>
 @endpush

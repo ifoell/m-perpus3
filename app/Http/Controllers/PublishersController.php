@@ -54,7 +54,7 @@ class PublishersController extends Controller
                     'description' => $request->description]
                 );
 
-        return response()->json(['success' => 'Publisher added successfully']);
+        return response()->json(['success' => 'Publisher Saved successfully']);
     }
 
     /**

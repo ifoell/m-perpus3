@@ -15,10 +15,11 @@ class BooksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // $q = $request->q;
         //get all data
-        $books = Book::with(['publisher'])->orderBy('title', 'ASC')->sortable()->paginate(6);
+        $books = Book::with(['publisher'])/*->search($q)*/->orderBy('title', 'ASC')->sortable()->paginate(6);
         return view('books.index', compact('books'));
     }
 
@@ -44,7 +45,7 @@ class BooksController extends Controller
     {
         //form validation
         $request->validate([
-            'title'     => 'required',
+            'title'     => 'required|unique:books',
             'title_translate'=> 'nullable',
             'author'    => 'required',
             'editor'    => 'nullable',

@@ -65,16 +65,16 @@
                                     <td>{{ Str::limit($book->edition,16) }}</td>
                                     <td>
                                         <form action="{{ route('books.destroy', $book->id) }}" method="post">
-                                            <a onclick="window.location.href = '{{ route('books.show', $book->id) }}'" href="javascript:void(0);" class="btn btn-sm btn-info">
+                                            <a onclick="window.location.href = '{{ route('books.show', $book->id) }}'" href="javascript:void(0);" class="btn btn-sm btn-info" title="Show Data">
                                                 <i class="ni ni-zoom-split-in"></i></a>
-                                            <a onclick="window.location.href = '{{ route('books.edit', $book->id) }}'" href="javascript:void(0);" class="btn btn-sm btn-success">
+                                            <a onclick="window.location.href = '{{ route('books.edit', $book->id) }}'" href="javascript:void(0);" class="btn btn-sm btn-success" title="Edit Data">
                                                 <i class="ni ni-ruler-pencil"></i>
                                             </a>
 
                                             @csrf
                                             @method('delete')
                                             <a href="javascript:void(0);">
-                                            <button type="submit" onclick="$(this).closest('form').submit();" class="btn btn-sm btn-danger">
+                                            <button type="submit" onclick="$(this).closest('form').submit();" class="btn btn-sm btn-danger" title="Delete Data">
                                                 <i class="ni ni-fat-remove"></i>
                                             </button>
                                         </a>

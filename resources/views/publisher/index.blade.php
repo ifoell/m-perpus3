@@ -41,13 +41,13 @@
                     @endif
 
                     <div class="table-responsive py-4">
-                        <table class="table table-primary table-bordered data-table">
+                        <table class="table table-primary table-bordered data-table table-responsive">
                             <thead>
                                 <tr>
                                     <th width="2%">#</th>
                                     <th width="20%">Name</th>
                                     <th>Address</th>
-                                    <th width="10%">Action</th>
+                                    <th width="8%">Action</th>
                                 </tr>
                             </thead>
                         </table>
