@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Person;
 use Illuminate\Http\Request;
+use DataTables;
 
 class PersonController extends Controller
 {
@@ -12,10 +13,20 @@ class PersonController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        
-        return view('person.index', compact('person'));
+        if ($request->ajax()) {
+            return Datatables::of(Person::latest()->get())
+                    ->addIndexColumn()
+                    ->addColumn('action', function($data){
+                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editPerson"><ion-icon name="create"></ion-icon></a>';
+                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deletePerson"><ion-icon name="trash"></ion-icon></a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        return view('person.index');
     }
 
     /**
@@ -25,7 +36,7 @@ class PersonController extends Controller
      */
     public function create()
     {
-        //
+        
     }
 
     /**
@@ -36,7 +47,14 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Person::updateOrCreate(['id' => $request->person_id],
+                    ['name' => $request->name,
+                    'address' => $request->address,
+                    'phone' => $request->phone,
+                    'description' => $request->description]
+                );
+
+        return response()->json(['success' => 'Person Data Saved successfully']);
     }
 
     /**
@@ -56,9 +74,10 @@ class PersonController extends Controller
      * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function edit(Person $person)
+    public function edit( $id)
     {
-        //
+        $person = Person::find($id);
+        return response()->json($person);
     }
 
     /**
@@ -81,6 +100,8 @@ class PersonController extends Controller
      */
     public function destroy(Person $person)
     {
-        //
+        Person::find($id)->delete();
+
+        return response()->json(['success' => 'Person deleted successfully']);
     }
 }

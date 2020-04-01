@@ -13,5 +13,7 @@
 <script src="{{asset('assets/js/jquery.validate.js')}}"></script>
 <script src="{{ asset('assets/vendor/datatables.net/js/jquery.dataTables.min.js') }}"></script>
 <script src="{{asset('assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js')}}"></script>
+<script src="{{asset('assets/js/dataTables.responsive.min.js')}}"></script>
+<script src="{{asset('assets/js/responsive.bootstrap4.min.js')}}"></script>
 @stack('scripts')
 <script src="{{asset('assets/js/argon.js?v=1.1.0')}}"></script>

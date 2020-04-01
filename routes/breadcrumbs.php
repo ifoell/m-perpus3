@@ -36,3 +36,24 @@ Breadcrumbs::for('detail_book', function ($trail, $book) {
 Breadcrumbs::for('publisher', function ($trail) {
     $trail->push('Publisher', route('publishers.index'));
 });
+
+Breadcrumbs::for('person', function ($trail) {
+    $trail->push('Person', route('person.index'));
+});
+
+Breadcrumbs::for('borrow', function ($trail) {
+    $trail->push('Borrow', route('borrow.index'));
+});
+
+// Borrow > Add
+Breadcrumbs::for('add_borrow', function ($trail) {
+    $trail->parent('borrow');
+    $trail->push('Add Borrow Data', route('books.create'));
+});
+
+// Borrow > show/edit > title
+
+Breadcrumbs::for('detail_borrow', function ($trail, $borrow) {
+    $trail->parent('borrow');
+    $trail->push($borrow->title, route('borrow.show', $borrow->id));
+});

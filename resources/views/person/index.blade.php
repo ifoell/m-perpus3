@@ -1,5 +1,5 @@
 @extends('template.layout2')
-@section('title', 'Publisher Data')
+@section('title', 'Person Data')
 @section('content')
 <!-- Header -->
 <div class="header bg-primary pb-6">
@@ -9,12 +9,12 @@
                 <div class="col-lg-6 col-7">
                     <h6 class="h2 text-white d-inline-block mb-0">@yield('title')</h6>
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-                        {{ Breadcrumbs::render('publisher') }}
+                        {{ Breadcrumbs::render('person') }}
                     </nav>
                 </div>
 
                 <div class="col-lg-6 col-5 text-right">
-                    <a href="javascript:void(0)" id="addNew" class="btn btn-sm btn-neutral">Add Publisher</a>
+                    <a href="javascript:void(0)" id="addNew" class="btn btn-sm btn-neutral">Add Person</a>
                 </div>
             </div>
         </div>
@@ -46,6 +46,7 @@
                                 <tr>
                                     <th width="2%">#</th>
                                     <th width="20%">Name</th>
+                                    <th width="10%">Phone Number</th>
                                     <th>Address</th>
                                     <th width="8%">Action</th>
                                 </tr>
@@ -63,13 +64,20 @@
                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <form id="publisherForm" name="publisherForm" class="form-horizontal">
-                            <input type="hidden" name="publisher_id" id="publisher_id">
+                        <form id="personForm" name="personForm" class="form-horizontal">
+                            <input type="hidden" name="person_id" id="person_id">
                             
                             <div class="form-group">
                                 <label for="name" class="col-sm-2">Name</label>
                                 <div class="col-sm-12">
-                                    <input type="text" name="name" id="name" class="form-control" placeholder="Type the name of publisher" value="" required>
+                                    <input type="text" name="name" id="name" class="form-control" placeholder="Type the name of person" value="" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="phone" class="col-sm-6">Phone Number</label>
+                                <div class="col-sm-12">
+                                    <input type="text" name="phone" id="phone" class="form-control" placeholder="Type the phone number of person" value="" required>
                                 </div>
                             </div>
     
@@ -119,10 +127,12 @@
                 serverSide: true,
                 responsive: true,
                 autoWidth: false,
-                ajax: "{{ route('publishers.index') }}",
+                
+                ajax: "{{ route('person.index') }}",
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable:false},
                     {data: 'name', name: 'name'},
+                    {data: 'phone', name: 'phone'},
                     {data: 'address', name: 'address'},
                     {data: 'action', name: 'action', orderable:false, searchable:false},
                 ],
@@ -130,21 +140,22 @@
             });
 
             $('#addNew').click(function() {
-                $('#saveBtn').val("add-publisher");
-                $('#publisher_id').val('');
-                $('#publisherForm').trigger("reset");
-                $('#modelHeading').html("Add New Publisher");
+                $('#saveBtn').val("add-person");
+                $('#person_id').val('');
+                $('#personForm').trigger("reset");
+                $('#modelHeading').html("Add New Person");
                 $('#ajaxModel').modal('show');
             });
 
-            $('body').on('click', '.editPublisher', function() {
-                var publisher_id = $(this).data('id');
-                $.get("{{ route('publishers.index') }}" + '/' + publisher_id + '/edit', function(data) {
+            $('body').on('click', '.editPerson', function() {
+                var person_id = $(this).data('id');
+                $.get("{{ route('person.index') }}" + '/' + person_id + '/edit', function(data) {
                     $('#modelHeading').html("Edit Data <strong>" + data.name + "</strong>");
-                    $('#saveBtn').val("edit-publisher");
+                    $('#saveBtn').val("edit-person");
                     $('#ajaxModel').modal('show');
-                    $('#publisher_id').val(data.id);
+                    $('#person_id').val(data.id);
                     $('#name').val(data.name);
+                    $('#phone').val(data.phone);
                     $('#address').val(data.address);
                     $('#description').val(data.description);
                 })
@@ -155,12 +166,12 @@
                $(this).html('Sending...');
 
                $.ajax({
-                   data : $('#publisherForm').serialize(),
-                   url : "{{ route('publishers.store') }}",
+                   data : $('#personForm').serialize(),
+                   url : "{{ route('person.store') }}",
                    type : "POST",
                    dataType : 'json',
                    success: function (data) {
-                       $('#publisherForm').trigger("reset");
+                       $('#personForm').trigger("reset");
                        $('#ajaxModel').modal('hide');
                        $('#saveBtn').html('Save Changes');
                        table.draw();
@@ -173,13 +184,13 @@
                });
             });
 
-            $('body').on('click', '.deletePublisher', function () {
+            $('body').on('click', '.deletePerson', function () {
      
-                var publisher_id = $(this).data("id");
+                var person_id = $(this).data("id");
                 if (confirm("Are You sure want to delete !")) {
                     $.ajax({
                     type: "DELETE",
-                    url: "{{ route('publishers.store') }}"+'/'+publisher_id,
+                    url: "{{ route('person.store') }}"+'/'+person_id,
                     success: function (data) {
                         table.draw();
                     },

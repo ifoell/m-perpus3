@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Publisher;
 use App\Book;
+use App\Person;
 
 class Select2Controller extends Controller
 {
@@ -23,6 +24,50 @@ class Select2Controller extends Controller
             $response[] = array(
                 "id"=>$publisher->id,
                 "name"=>$publisher->name,
+            );
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+
+    public function books_title(Request $request)
+    {
+        $search = $request->search;
+
+        if ($search == '') {
+            $books_title = Book::orderby('title','asc')->select('id','title')->limit(5)->get();
+        } else {
+            $books_title = Book::orderby('title','asc')->select('id','title')->where('title', 'like', '%' .$search. '%')->limit(5)->get();
+        }
+
+        $response = array();
+        foreach ($books_title as $books) {
+            $response[] = array(
+                "id"=>$books->id,
+                "title"=>$books->title,
+            );
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+
+    public function person_name(Request $request)
+    {
+        $search = $request->search;
+
+        if ($search == '') {
+            $person_name = Person::orderby('name','asc')->select('id','name')->limit(5)->get();
+        } else {
+            $person_name = Person::orderby('name','asc')->select('id','name')->where('name', 'like', '%' .$search. '%')->limit(5)->get();
+        }
+
+        $response = array();
+        foreach ($person_name as $person) {
+            $response[] = array(
+                "id"=>$person->id,
+                "name"=>$person->name,
             );
         }
 

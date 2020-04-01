@@ -20,6 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::group(['prefix' => 'books'], function () {
     Route::get('getall', 'BooksController@apibooks');
+    Route::post('/get_title', 'Select2Controller@books_title');
     Route::get('/read/{id}', 'BooksController@apireadbooks');
     Route::post('add', 'BooksController@apiaddbooks');
     Route::put('/edit/{id}', 'BooksController@apiupdatebooks');
@@ -28,4 +29,9 @@ Route::group(['prefix' => 'books'], function () {
 
 Route::group(['prefix' => 'publishers'], function () {
     Route::get('getall', 'publishersController@apipublishers');
+    Route::post('/get_name', 'Select2Controller@publisher_name');
+});
+
+Route::group(['prefix' => 'person'], function () {
+    Route::post('/get_name', 'Select2Controller@person_name');
 });

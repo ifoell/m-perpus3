@@ -33,6 +33,25 @@
                         <span class="nav-link-text">Publishers</span>
                     </a>
             </li>
+            <li class="nav-item">
+                @if (URL::current()==route('person.index'))
+                <a class="nav-link" href="#">
+                    @else
+                    <a class="nav-link" href="{{ route('person.index') }}">
+                        @endif
+                        <i class="ni ni-ui-04 text-green"></i>
+                        <span class="nav-link-text">Person</span>
+                    </a>
+            </li>
+            <li class="nav-item">
+                @if (URL::current()==route('borrow.index'))
+                <a class="nav-link" href="#">
+                    @else
+                    <a class="nav-link" href="{{ route('borrow.index') }}">
+                        @endif
+                        <i class="ni ni-ui-04 text-gray-dark"></i>
+                        <span class="nav-link-text">Borrowing Data</span>
+                    </a>
             </li>
         </ul>
     </div>

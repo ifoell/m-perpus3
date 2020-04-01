@@ -20,6 +20,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('publishers', 'PublishersController')->except([
         'show', 'update', 'create'
     ]);
+    Route::resource('person', 'PersonController')->except([
+        'show', 'update', 'create'
+    ]);
+    Route::resource('borrow', 'BorrowController');
 });
-
-Route::post('/getpublisher_name', 'Select2Controller@publisher_name')->name('get_publisher');

@@ -1,5 +1,5 @@
 @extends('template.layout2')
-@section('title', 'Add Books Data')
+@section('title', 'Add Borrowing Data')
 @section('content')
 <!-- Header -->
 <div class="header bg-primary pb-6">
@@ -9,7 +9,7 @@
                 <div class="col-lg-6 col-7">
                     <h6 class="h2 text-white d-inline-block mb-0">@yield('title')</h6>
                     <nav aria-label="breadcrumb" class="d-none d-md-inline-block ml-md-4">
-                        {{ Breadcrumbs::render('add_book') }}
+                        {{ Breadcrumbs::render('add_borrow') }}
                     </nav>
                 </div>
             </div>
@@ -39,71 +39,43 @@
                         </ul>
                     </div>
                     @endif
-                    <form method="POST" action="{{ route('books.store') }}" id="booksForm">
+                    <form method="POST" action="{{ route('borrow.store') }}" id="borrowForm">
                         @csrf
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="title">Title</label>
-                                    <input type="text" name="title" class="form-control" id="title" aria-describedby="title" placeholder="Type the Title">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="title_translate">Title Translate</label>
-                                    <input type="text" name="title_translate" class="form-control" id="title_translate" aria-describedby="title_translate" placeholder="Type the Title if Translated Book">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="author">Author</label>
-                                    <input type="text" name="author" class="form-control" id="author" aria-describedby="author" placeholder="Type the Author">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="editor">Editor</label>
-                                    <input type="text" name="editor" class="form-control" id="editor" aria-describedby="editor" placeholder="Type the Editor">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="copy_editor">Copy Editor</label>
-                                    <input type="text" name="copy_editor" class="form-control" id="copy_editor" aria-describedby="copy_editor" placeholder="Type the Copy Editor">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="publisher_id">Publisher</label>
-                                    <select name="publisher_id" id="publisher_id" class="publisher_name form-control" data-toggle="select">
-                                        <option value="" selected disabled>~ Select Publisher ~</option>
-                                        {{-- @foreach ($publishers as $p)
-                                        <option value="{{ $p->id }}">{{ $p->name }}</option>
-                                        @endforeach --}}
+                                    <label for="book_id">Books</label>
+                                    <select name="book_id" id="books_id" class="books_title form-control" data-toggle="select">
+                                        <option value="" selected disabled>~ Select Books ~</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="isbn">ISBN</label>
-                                    <input type="text" name="isbn" class="form-control" id="isbn" aria-describedby="isbn" placeholder="Type the ISBN">
+                                    <label for="person_id">Person</label>
+                                    <select name="person_id" id="person_id" class="person_name form-control" data-toggle="select">
+                                        <option value="" selected disabled>~ Select Person ~</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="edition">Edition</label>
-                                    <input type="text" name="edition" class="form-control" id="edition" aria-describedby="edition" placeholder="Type the Edition">
+                                    <label for="ownership">Ownership</label>
+                                    <select name="ownership" id="ownership" class="form-control">
+                                        <option value="m">Mine</option>
+                                        <option value="o">His / Hers</option>
+                                    </select>
                                 </div>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="description">Description</label>
-                                    <textarea class="form-control" name="description" id="description" cols="30" rows="4"></textarea>
+                                  <label class="form-control-label" for="borrow_at">Borrow From</label>
+                                  <input class="form-control datepicker" name="borrow_at" id="borrow_at" placeholder="Select date" type="text" data-date-format="yyyy-mm-dd">
                                 </div>
-                            </div>
+                              </div>
                             <div class="col-md-12 text-right">
                                 <button type="submit" class="btn btn-primary">Submit</button>
-                                <a href="{{ route('books.index') }}">
+                                <a href="{{ route('borrow.index') }}">
                                     <button type="button" class="btn btn-danger">Cancel</button>
                                 </a>
                             </div>
@@ -123,14 +95,40 @@
 @endpush
 
 @push('scripts')
+<script src="{{ asset('assets/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js') }}"></script>
     <script>
         // csrf token
         var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
         $(document).ready(function(){
 
-            $("#publisher_id").select2({
+            $("#books_id").select2({
                 ajax: {
-                    url: "{{ url('/api/publishers/get_name') }}",
+                    url: "{{ url('/api/books/get_title') }}",
+                    type: "post",
+                    dataType: 'json',
+                    delay: 250,
+                    data: function(params) {
+                        return {
+                            _token: CSRF_TOKEN,
+                            search:  params.term //search term
+                        };
+                    },
+                    processResults: function(response) {
+                        return {
+                            // results: response
+                            results: $.map(response, function(obj) {
+                                return { id: obj.id, text: obj.title };
+                            })
+                        };
+                    },
+                    cache: true
+                }
+
+            });
+
+            $("#person_id").select2({
+                ajax: {
+                    url: "{{ url('/api/person/get_name') }}",
                     type: "post",
                     dataType: 'json',
                     delay: 250,

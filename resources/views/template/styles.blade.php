@@ -11,5 +11,7 @@
 
 <link href="{{asset('assets/vendor/datatables.net/css/jquery.dataTables.min.css')}}" rel="stylesheet">
 <link href="{{asset('assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}" rel="stylesheet">
+<link href="{{asset('assets/css/responsive.bootstrap.css')}}" rel="stylesheet">
+<link href="{{asset('assets/css/responsive.dataTables.css')}}" rel="stylesheet">
 @stack('styles')
 <link rel="stylesheet" href="{{asset('assets/css/argon.css?v=1.1.0')}}" type="text/css">

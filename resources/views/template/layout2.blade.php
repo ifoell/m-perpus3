@@ -22,7 +22,7 @@ Software.
     @include('template.styles')
 </head>
 
-<body>
+<body onload="startTime()">
     <!-- Sidenav -->
     <nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
         <div class="scrollbar-inner">
@@ -46,6 +46,7 @@ Software.
                             </div>
                         </div>
                     </div>
+                </a>
             </div>
             @include('template.menu')
         </div>
