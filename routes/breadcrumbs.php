@@ -57,3 +57,8 @@ Breadcrumbs::for('detail_borrow', function ($trail, $borrow) {
     $trail->parent('borrow');
     $trail->push($borrow, route('borrow.show', $borrow));
 });
+
+Breadcrumbs::for('edit_borrow', function ($trail, $id) {
+    $trail->parent('borrow');
+    $trail->push('Edit Borrow Data', route('borrow.edit', $borrow[0]->id));
+});

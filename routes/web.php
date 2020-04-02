@@ -24,8 +24,12 @@ Route::group(['prefix' => 'admin'], function () {
         'show', 'update', 'create'
     ]);
     Route::resource('borrow', 'BorrowController')->except([
-        'show', 'destroy'
+        'show', 'edit', 'destroy'
     ]);
-    Route::get('borrow/{id}/detail', 'BorrowController@show')->name('borrow.show');
-    Route::delete('borrow/delete/{id}', 'BorrowController@destroy')->name('borrow.destroy');
+    Route::group(['prefix' => 'borrow'], function () {
+        Route::get('{id}/detail', 'BorrowController@show')->name('borrow.show');
+        Route::get('{id}/edit', 'BorrowController@edit')->name('borrow.edit');
+        Route::delete('delete/{id}', 'BorrowController@destroy')->name('borrow.destroy');
+        Route::put('return/{id}', 'BorrowController@return')->name('borrow.return');
+    });
 });

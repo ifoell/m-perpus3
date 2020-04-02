@@ -25,7 +25,7 @@
             <div class="card">
                 <!-- Card body -->
                 <div class="card-body">
-                    <table class="table table-borderless">
+                    <table class="table table-borderless" id="borrowDetails">
                         <tr>
                             <td><b>Title</b></td>
                             <td>: {{ $borrow[0]->book->title }}</td>
@@ -84,7 +84,7 @@
                     <small>Created at: {{ $borrow[0]->created_at }}</small> &nbsp;&nbsp;&nbsp;
                     <small>Updated at: {{ $borrow[0]->updated_at }}</small>
                     <div class="float-right">
-                        <button type="button" class="btn btn-success">Return Book</button>
+                        <button type="button" class="btn btn-success returnBorrow" data-id="{{ $borrow[0]->id }}">Return Book</button>
                         <a href="{{ route('borrow.index') }}">
                             <button type="button" class="btn btn-info">Back</button>
                         </a>
@@ -107,3 +107,53 @@
 </div>
 
 @endsection
+
+@push('styles')
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+@endpush
+
+@push('scripts')
+    <script>
+        $(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $('body').on('click', '.returnBorrow', function() {
+                var borrow_id = $(this).data('id');
+                if (confirm("Is this book already returned ?")) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "/admin/borrow/return" + '/' + borrow_id,
+                        data: { "id": borrow_id },
+                        success: function(data) {
+                            console.log('Success: ', data);
+                            $('#borrowDetails').load(window.location + " #borrowDetails");
+
+                            $('#flashmsg').html(
+                            '<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                                '<strong>Book Returned Successfully<strong>'+
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                                    '<span aria-hidden="true">&times;</span>'+
+                                '</button>'+
+                            '</div>')
+                        },
+                        error: function(data) {
+                            console.log('Error: ', data);
+
+                            $('#flashmsg').html(
+                            '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                                '<strong>Data Return Book Failed to Submit<strong>'+
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                                    '<span aria-hidden="true">&times;</span>'+
+                                '</button>'+
+                            '</div>')
+                        }
+                    })
+                }
+            });
+        });
+    </script>
+@endpush

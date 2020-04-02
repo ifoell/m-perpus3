@@ -106,16 +106,45 @@
             $('body').on('click', '.showBorrow', function() {
                 var borrow_id = $(this).data('id');
                 window.location.href = "/admin/borrow/" + borrow_id + '/detail';
-                // $.get("{{ route('person.index') }}" + '/' + person_id + '/edit', function(data) {
-                //     $('#modelHeading').html("Edit Data <strong>" + data.name + "</strong>");
-                //     $('#saveBtn').val("edit-person");
-                //     $('#ajaxModel').modal('show');
-                //     $('#person_id').val(data.id);
-                //     $('#name').val(data.name);
-                //     $('#phone').val(data.phone);
-                //     $('#address').val(data.address);
-                //     $('#description').val(data.description);
-                // })
+            });
+
+            $('body').on('click', '.editBorrow', function() {
+                var borrow_id = $(this).data('id');
+                window.location.href = "/admin/borrow/" + borrow_id + '/edit';
+            });
+
+            $('body').on('click', '.returnBorrow', function() {
+                var borrow_id = $(this).data('id');
+                if (confirm("Is this book already returned ?")) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "borrow/return" + '/' + borrow_id,
+                        data: { "id": borrow_id },
+                        success: function(data) {
+                            console.log('Success: ', data);
+                            table.draw();
+
+                            $('#flashmsg').html(
+                            '<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                                '<strong>Book Returned Successfully<strong>'+
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                                    '<span aria-hidden="true">&times;</span>'+
+                                '</button>'+
+                            '</div>')
+                        },
+                        error: function(data) {
+                            console.log('Error: ', data);
+
+                            $('#flashmsg').html(
+                            '<div class="alert alert-danger alert-dismissible fade show" role="alert">'+
+                                '<strong>Data Return Book Failed to Submit<strong>'+
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                                    '<span aria-hidden="true">&times;</span>'+
+                                '</button>'+
+                            '</div>')
+                        }
+                    })
+                }
             });
 
             $('body').on('click', '.deleteBorrow', function () {

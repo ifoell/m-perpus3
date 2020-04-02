@@ -138,9 +138,12 @@ class BorrowController extends Controller
      * @param  \App\Borrow  $borrow
      * @return \Illuminate\Http\Response
      */
-    public function edit(Borrow $borrow)
+    public function edit($id)
     {
-        //
+        $borrow = Borrow::where('id', $id)->get();
+        $book = Book::all();
+        $person = Person::all();
+        return view('borrow.edit', compact('borrow', 'book', 'person'));
     }
 
     /**
@@ -150,9 +153,21 @@ class BorrowController extends Controller
      * @param  \App\Borrow  $borrow
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Borrow $borrow)
+    public function update(Request $request, $id)
     {
-        //
+        //form validation
+        $request->validate([
+            'book_id'     => 'required',
+            'person_id'=> 'required',
+            'ownership'    => 'required',
+            'borrow_at'    => 'nullable'
+        ]);
+
+        $borrow = Borrow::find($id);
+        $borrow->update($request->all());
+        
+        return redirect()->route('borrow.index')
+            ->with('success', 'Book updated successfully');
     }
 
     /**
@@ -168,6 +183,28 @@ class BorrowController extends Controller
             Borrow::destroy($id);
             return response()->json([
                 'success' => 'Data Deleted successfully'
+            ]);
+        }
+    }
+
+    // return function ajax
+    public function return($id)
+    {
+        $borrow = Borrow::find($id);
+
+        if ($borrow) {
+            Borrow::where('id', $id)
+            ->update(['status' => '1', 'updated_at' => now(), 'return_at' => now()]);
+            return response()->json([
+                'success' => 'Books Returned'
+            ]);
+        } elseif($borrow->status == '1' && $borrow->return_at != null) {
+            return response()->json([
+                'error' => 'Books have Returned, You cant Return it again!'
+            ]);
+        } else {
+            return response()->json([
+                'error' => 'Save Error'
             ]);
         }
     }
