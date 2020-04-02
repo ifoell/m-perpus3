@@ -15,6 +15,7 @@ class Person extends Model
         'name',
         'address',
         'phone',
+        'gender',
         'description',
     ];
 

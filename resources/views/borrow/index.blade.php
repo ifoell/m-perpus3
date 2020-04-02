@@ -103,18 +103,19 @@
                 window.location.href='{{ route('borrow.create') }}';
             });
 
-            $('body').on('click', '.editPerson', function() {
-                var person_id = $(this).data('id');
-                $.get("{{ route('person.index') }}" + '/' + person_id + '/edit', function(data) {
-                    $('#modelHeading').html("Edit Data <strong>" + data.name + "</strong>");
-                    $('#saveBtn').val("edit-person");
-                    $('#ajaxModel').modal('show');
-                    $('#person_id').val(data.id);
-                    $('#name').val(data.name);
-                    $('#phone').val(data.phone);
-                    $('#address').val(data.address);
-                    $('#description').val(data.description);
-                })
+            $('body').on('click', '.showBorrow', function() {
+                var borrow_id = $(this).data('id');
+                window.location.href = "/admin/borrow/" + borrow_id + '/detail';
+                // $.get("{{ route('person.index') }}" + '/' + person_id + '/edit', function(data) {
+                //     $('#modelHeading').html("Edit Data <strong>" + data.name + "</strong>");
+                //     $('#saveBtn').val("edit-person");
+                //     $('#ajaxModel').modal('show');
+                //     $('#person_id').val(data.id);
+                //     $('#name').val(data.name);
+                //     $('#phone').val(data.phone);
+                //     $('#address').val(data.address);
+                //     $('#description').val(data.description);
+                // })
             });
 
             $('body').on('click', '.deleteBorrow', function () {

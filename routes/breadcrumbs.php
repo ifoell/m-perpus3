@@ -55,5 +55,5 @@ Breadcrumbs::for('add_borrow', function ($trail) {
 
 Breadcrumbs::for('detail_borrow', function ($trail, $borrow) {
     $trail->parent('borrow');
-    $trail->push($borrow->title, route('borrow.show', $borrow->id));
+    $trail->push($borrow, route('borrow.show', $borrow));
 });

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Borrow;
 use App\Book;
 use App\Person;
+use App\Publisher;
 use DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +23,9 @@ class BorrowController extends Controller
                     ->leftJoin('person', 'borrow.person_id', '=', 'person.id')
                     ->select(['borrow.id',
                             //   'borrow.ownership',
-                              DB::raw("(CASE WHEN borrow.ownership = 'o' THEN 'His / Hers' ELSE 'Mine' END) AS ownership"),
+                              DB::raw("(CASE WHEN (borrow.ownership = 'o' AND person.gender = 'm') THEN 'His'
+                                        WHEN (borrow.ownership = 'o' AND person.gender = 'f') THEN 'Hers'
+                                        ELSE 'Mine' END) AS ownership"),
                             //   'borrow.status',
                               DB::raw("(CASE WHEN borrow.status = '0' THEN 'Still Borrow' ELSE 'Returned' END) AS status"),
                               'borrow.borrow_at',
@@ -32,8 +35,9 @@ class BorrowController extends Controller
                               'person.name',
                               'person.phone'
                             ]);
-                    
+            
         if ($request->ajax()) {
+            
             return Datatables::of($borrow)
                     // ->editColumn('ownership', function($data){
                     //     switch ($data->ownership) {
@@ -67,8 +71,9 @@ class BorrowController extends Controller
                     // })
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
-                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Edit" class="edit btn btn-primary btn-sm" title="Edit"><ion-icon name="create"></ion-icon></a>';
-                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Return" class="btn btn-success btn-sm returnBorrow" title="Return" data-id="'.$data->id.'"><ion-icon name="create"></ion-icon></a>';
+                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Show" class="edit btn btn-info btn-sm showBorrow" title="Detail" data-id="'.$data->id.'"><ion-icon name="eye"></ion-icon></a>';
+                        $btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Edit" class="edit btn btn-primary btn-sm editBorrow" title="Edit" data-id="'.$data->id.'"><ion-icon name="create"></ion-icon></a>';
+                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Return" class="btn btn-success btn-sm returnBorrow" title="Return" data-id="'.$data->id.'"><ion-icon name="caret-back-circle"></ion-icon></a>';
                         $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-sm deleteBorrow" title="Delete" data-id="'.$data->id.'"><ion-icon name="trash"></ion-icon></a>';
                         return $btn;
                     })
@@ -116,9 +121,15 @@ class BorrowController extends Controller
      * @param  \App\Borrow  $borrow
      * @return \Illuminate\Http\Response
      */
-    public function show(Borrow $borrow)
+    public function show($id)
     {
-        //
+        //read data
+        $borrow = Borrow::where('id', $id)->with('book')
+                        ->with('person')->get();
+        $publisher = Publisher::select('name')->where('id',$borrow[0]->book->publisher_id)->get();
+        // pretty_array($publisher[0]->name);
+        // die;
+        return view('borrow.detail', compact('borrow', 'publisher'));
     }
 
     /**

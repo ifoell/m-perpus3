@@ -22,11 +22,11 @@ class Borrow extends Model
 
     public function book()
     {
-        return $this->hasMany('App\Book');
+        return $this->belongsTo('App\Book');
     }
 
     public function person()
     {
-        return $this->hasMany('App\Person');
+        return $this->belongsTo('App\Person');
     }
 }
