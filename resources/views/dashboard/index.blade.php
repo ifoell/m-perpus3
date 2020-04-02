@@ -170,13 +170,8 @@
             <div class="card pray-time">
                 <!-- Card header -->
                 <div class="card-header bg-gradient-success">
-                    <div class="row">
-                        <!-- Title -->
-                        <h5 class="h3 mb-0">Prayer Times</h5>
-                        <div class="col text-right">
-                            <strong><div class="text-darker" id="ct"></div></strong>
-                        </div>
-                    </div>
+                    <!-- Title -->
+                    <h5 class="h3 mb-0">Prayer Times</h5>
                 </div>
             </div>
         </div>
@@ -269,21 +264,4 @@
 <script src="{{ asset('assets/vendor/fullcalendar/dist/fullcalendar.min.js') }}"></script>
 <script src="{{ asset('assets/vendor/fullcalendar/dist/gcal.min.js') }}"></script>
 <script src="{{ asset('assets/js/prayer.js') }}"></script>
-<script>
-    function startTime() {
-        var today = new Date();
-        var h = today.getHours();
-        var m = today.getMinutes();
-        var s = today.getSeconds();
-        m = checkTime(m);
-        s = checkTime(s);
-        document.getElementById('ct').innerHTML =
-        h + ":" + m + ":" + s;
-        var t = setTimeout(startTime, 500);
-    }
-    function checkTime(i) {
-        if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
-        return i;
-    }
-</script>
 @endpush

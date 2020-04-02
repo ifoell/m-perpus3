@@ -7,6 +7,7 @@ use App\Book;
 use App\Person;
 use DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BorrowController extends Controller
 {
@@ -17,24 +18,58 @@ class BorrowController extends Controller
      */
     public function index(Request $request)
     {
-        $borrow = Borrow::join('books', 'borrow.book_id', '=', 'books.id')
-                    ->join('person', 'borrow.person_id', '=', 'person.id')
-                    ->select(['borrow.ownership',
-                                'borrow.status',
-                                'borrow.borrow_at',
-                                'borrow.return_at',
-                                'books.title',
-                                'books.isbn',
-                                'person.name',
-                                'person.phone'
+        $borrow = Borrow::leftJoin('books', 'borrow.book_id', '=', 'books.id')
+                    ->leftJoin('person', 'borrow.person_id', '=', 'person.id')
+                    ->select(['borrow.id',
+                            //   'borrow.ownership',
+                              DB::raw("(CASE WHEN borrow.ownership = 'o' THEN 'His / Hers' ELSE 'Mine' END) AS ownership"),
+                            //   'borrow.status',
+                              DB::raw("(CASE WHEN borrow.status = '0' THEN 'Still Borrow' ELSE 'Returned' END) AS status"),
+                              'borrow.borrow_at',
+                              'borrow.return_at',
+                              'books.title',
+                              'books.isbn',
+                              'person.name',
+                              'person.phone'
                             ]);
                     
         if ($request->ajax()) {
             return Datatables::of($borrow)
+                    // ->editColumn('ownership', function($data){
+                    //     switch ($data->ownership) {
+                    //         case 'o':
+                    //             return 'His / Hers';
+                    //             break;
+                            
+                    //         case 'm':
+                    //             return 'Mine';
+                    //             break;
+
+                    //         default:
+                    //             return 'N/A';
+                    //             break;
+                    //     }
+                    // })
+                    // ->editColumn('status', function($data){
+                    //     switch ($data->status) {
+                    //         case '0':
+                    //             return 'Still Borrow';
+                    //             break;
+                            
+                    //         case '1':
+                    //             return 'Returned';
+                    //             break;
+
+                    //         default:
+                    //             return 'N/A';
+                    //             break;
+                    //     }
+                    // })
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
-                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Edit" class="edit btn btn-primary btn-sm"><ion-icon name="create"></ion-icon></a>';
-                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-sm deleteBorrow"><ion-icon name="trash"></ion-icon></a>';
+                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Edit" class="edit btn btn-primary btn-sm" title="Edit"><ion-icon name="create"></ion-icon></a>';
+                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Return" class="btn btn-success btn-sm returnBorrow" title="Return" data-id="'.$data->id.'"><ion-icon name="create"></ion-icon></a>';
+                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-sm deleteBorrow" title="Delete" data-id="'.$data->id.'"><ion-icon name="trash"></ion-icon></a>';
                         return $btn;
                     })
                     ->rawColumns(['action'])
@@ -115,8 +150,14 @@ class BorrowController extends Controller
      * @param  \App\Borrow  $borrow
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Borrow $borrow)
+    public function destroy($id)
     {
-        //
+        $borrow = Borrow::find($id);
+        if ($borrow) {
+            Borrow::destroy($id);
+            return response()->json([
+                'success' => 'Data Deleted successfully'
+            ]);
+        }
     }
 }

@@ -71,9 +71,8 @@ class BooksController extends Controller
     public function show(Book $book)
     {
         //read data
-        $publisher_id = $book->publisher_id;
-        $publisher = publisher::find($publisher_id);
-        return view('books.detail', compact('book','publisher'));
+        $book->with('publisher')->get();
+        return view('books.detail', compact('book'));
     }
 
     /**

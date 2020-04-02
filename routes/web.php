@@ -23,5 +23,8 @@ Route::group(['prefix' => 'admin'], function () {
     Route::resource('person', 'PersonController')->except([
         'show', 'update', 'create'
     ]);
-    Route::resource('borrow', 'BorrowController');
+    Route::resource('borrow', 'BorrowController')->except([
+        'destroy'
+    ]);
+    Route::delete('borrow/delete/{id}', 'BorrowController@destroy')->name('borrow.destroy');
 });

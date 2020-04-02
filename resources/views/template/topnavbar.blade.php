@@ -16,6 +16,9 @@
             <span aria-hidden="true">×</span>
           </button>
         </form>
+        <div class="col text-lg-right">
+          <h2><strong><div class="text-lighter" id="ct"></div></strong></h2>
+      </div>
         <!-- Navbar links -->
         <ul class="navbar-nav align-items-center ml-md-auto">
           <li class="nav-item d-xl-none">

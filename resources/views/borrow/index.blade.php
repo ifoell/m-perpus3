@@ -29,6 +29,7 @@
             <div class="card">
                 <!-- Card body -->
                 <div class="card-body">
+                    <div id="flashmsg"></div>
                     @if ($message = Session::get('success'))
                     <div class="alert alert-success alert-dismissible fade show" role="alert">
                         <strong>
@@ -86,7 +87,7 @@
                 
                 ajax: "{{ route('borrow.index') }}",
                 columns: [
-                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable:false},
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable:false, searchable:false},
                     {data: 'title', name: 'books.title'},
                     {data: 'isbn', name: 'books.isbn'},
                     {data: 'name', name: 'person.name'},
@@ -94,27 +95,6 @@
                     {data: 'ownership', name: 'borrow.ownership'},
                     {data: 'status', name: 'borrow.status'},
                     {data: 'action', name: 'action', orderable:false, searchable:false},
-                ],
-                columnDefs : [
-                    { "targets" : 5,
-                    render : function (data, type, row) {
-                        switch(data) {
-                        case 'o' : return 'His / Hers'; break;
-                        case 'm' : return 'Mine'; break;
-                        default  : return 'N/A';
-                        }
-                    }
-                    },
-                    {
-                    "targets" : 6,
-                    render : function (data, type, row) {
-                        switch(data) {
-                        case '0' : return 'Still Borrow'; break;
-                        case '1' : return 'Returned'; break;
-                        default  : return 'N/A';
-                        }
-                    }
-                    }
                 ],
                 order: [[1, 'asc']]
             });
@@ -139,13 +119,27 @@
 
             $('body').on('click', '.deleteBorrow', function () {
      
-                var borrow_id = $(this).data("id");
+                var id = $(this).data("id");
+                var token = $("meta[name='csrf-token']").attr("content");
                 if (confirm("Are You sure want to delete !")) {
                     $.ajax({
                     type: "DELETE",
-                    url: "{{ route('borrow.store') }}"+'/'+person_id,
+                    url: "borrow/delete"+'/'+id,
+                    data: {
+                        "id": id,
+                        "_token": token,
+                    },
                     success: function (data) {
+                        console.log('Success:', data);
                         table.draw();
+                        
+                        $('#flashmsg').html(
+                            '<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                                '<strong>Data Deleted Successfully<strong>'+
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                                    '<span aria-hidden="true">&times;</span>'+
+                                '</button>'+
+                            '</div>')
                     },
                     error: function (data) {
                         console.log('Error:', data);

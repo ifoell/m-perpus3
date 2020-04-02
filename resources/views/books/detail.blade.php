@@ -50,7 +50,7 @@
                         </tr>
                         <tr>
                             <td><b>Publisher</b></td>
-                            <td>: {{ $publisher->name }}</td>
+                            <td>: {{ $book->publisher->name }}</td>
                         </tr>
                         <tr>
                             <td><b>ISBN</b></td>
