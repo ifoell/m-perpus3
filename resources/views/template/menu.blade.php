@@ -53,6 +53,16 @@
                         <span class="nav-link-text">Borrowing Data</span>
                     </a>
             </li>
+            {{-- <li class="nav-item">
+                @if (URL::current()==route('user.index'))
+                <a class="nav-link" href="#">
+                    @else
+                    <a class="nav-link" href="{{ route('user.index') }}">
+                        @endif
+                        <i class="ni ni-ui-04 text-gray-dark"></i>
+                        <span class="nav-link-text">User Data</span>
+                    </a>
+            </li> --}}
         </ul>
     </div>
 </div>

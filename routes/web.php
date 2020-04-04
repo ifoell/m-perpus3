@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::redirect('/', 'admin/');
-Route::group(['prefix' => 'admin'], function () {
+Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::get('/', 'HomeController@index')->name('dashboard');
     Route::resource('books', 'BooksController');
     Route::resource('publishers', 'PublishersController')->except([
@@ -33,3 +33,6 @@ Route::group(['prefix' => 'admin'], function () {
         Route::put('return/{id}', 'BorrowController@return')->name('borrow.return');
     });
 });
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

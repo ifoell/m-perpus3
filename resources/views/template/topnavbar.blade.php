@@ -201,7 +201,7 @@
                   <img alt="Image placeholder" src="{{ asset('assets/img/theme/team-5.jpg') }}">
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
-                  <span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+                  <span class="mb-0 text-sm  font-weight-bold">{{ Str::limit(Auth::user()->name, 8) }}</span>
                 </div>
               </div>
             </a>
@@ -226,10 +226,13 @@
                 <span>Support</span>
               </a>
               <div class="dropdown-divider"></div>
-              <a href="#!" class="dropdown-item">
+              <a href="{{ route('logout') }}" class="dropdown-item" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                 <i class="ni ni-user-run"></i>
-                <span>Logout</span>
+                <span>{{ __('Logout') }}</span>
               </a>
+              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+              </form>
             </div>
           </li>
         </ul>

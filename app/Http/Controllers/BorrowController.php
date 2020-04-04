@@ -127,8 +127,6 @@ class BorrowController extends Controller
         $borrow = Borrow::where('id', $id)->with('book')
                         ->with('person')->get();
         $publisher = Publisher::select('name')->where('id',$borrow[0]->book->publisher_id)->get();
-        // pretty_array($publisher[0]->name);
-        // die;
         return view('borrow.detail', compact('borrow', 'publisher'));
     }
 
@@ -191,8 +189,7 @@ class BorrowController extends Controller
     public function return($id)
     {
         $borrow = Borrow::find($id);
-
-        if ($borrow) {
+        if ($borrow->status == '0' && $borrow->return_at == null) {
             Borrow::where('id', $id)
             ->update(['status' => '1', 'updated_at' => now(), 'return_at' => now()]);
             return response()->json([

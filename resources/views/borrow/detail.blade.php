@@ -18,6 +18,7 @@
 </div>
 <!-- Page content -->
 <div class="container-fluid mt--6">
+    <div id="flashmsg"></div>
 
     <div class="row">
         <div class="col-xl-8 col-lg-8 margin-tb">
@@ -84,7 +85,9 @@
                     <small>Created at: {{ $borrow[0]->created_at }}</small> &nbsp;&nbsp;&nbsp;
                     <small>Updated at: {{ $borrow[0]->updated_at }}</small>
                     <div class="float-right">
+                        @if ($borrow[0]->status == 0 && $borrow[0]->return_at == null)
                         <button type="button" class="btn btn-success returnBorrow" data-id="{{ $borrow[0]->id }}">Return Book</button>
+                        @endif
                         <a href="{{ route('borrow.index') }}">
                             <button type="button" class="btn btn-info">Back</button>
                         </a>

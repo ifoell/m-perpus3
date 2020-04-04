@@ -12,9 +12,26 @@ use GuzzleHttp\Client;
 
 use App\Book;
 use App\Publisher;
+use App\Borrow;
+use App\Person;
 
 class HomeController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
     public function index()
     {
         $client = new Client();
@@ -32,8 +49,10 @@ class HomeController extends Controller
 
         $book = Book::all();
         $publisher = Publisher::all();
+        $otherBooks = Borrow::where(['ownership' => 'o', 'status' => '0']);
+        $person = Person::all();
         $tables = array_map('reset', \DB::select('SHOW TABLES'));
         $tables = \array_diff($tables, ["migrations", "failed_jobs"]);
-        return view('dashboard.index', compact('book','publisher','tables','covidindo','covidprov'));
+        return view('dashboard.index', compact('book','publisher','tables','covidindo','covidprov', 'otherBooks', 'person'));
     }
 }
