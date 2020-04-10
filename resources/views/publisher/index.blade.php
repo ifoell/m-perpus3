@@ -153,6 +153,7 @@
             $('#saveBtn').click(function (e) {
                e.preventDefault();
                $(this).html('Sending...');
+                $("#overlay").fadeIn(300);
 
                $.ajax({
                    data : $('#publisherForm').serialize(),
@@ -163,6 +164,9 @@
                        $('#publisherForm').trigger("reset");
                        $('#ajaxModel').modal('hide');
                        $('#saveBtn').html('Save Changes');
+                       setTimeout(function(){
+                            $("#overlay").fadeOut(300);
+                        },500);
                        table.draw();
                    },
 

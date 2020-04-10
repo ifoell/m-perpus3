@@ -74,7 +74,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <label for="publisher_id">Publisher</label>
+                                    <label for="publisher_id">Publisher <a href="{{ route('publishers.index') }}" title="add new publisher">?</a></label>
                                     <select name="publisher_id" id="publisher_id" class="publisher_name form-control" data-toggle="select">
                                         <option value="" selected disabled>~ Select Publisher ~</option>
                                         {{-- @foreach ($publishers as $p)

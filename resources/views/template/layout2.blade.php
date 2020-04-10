@@ -19,11 +19,13 @@ Software.
     <meta name="description" content="Start your development with a Dashboard for Bootstrap 4.">
     <meta name="author" content="Creative Tim">
     <title>M-Perpus Enhanced Version - @yield('title')</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     @include('template.styles')
 </head>
 
+@if (URL::current()!=route('login') && URL::current()!=route('login.locked'))
 <body onload="startTime()">
-    <!-- Sidenav -->
+        <!-- Sidenav -->
     <nav class="sidenav navbar navbar-vertical fixed-left navbar-expand-xs navbar-light bg-white" id="sidenav-main">
         <div class="scrollbar-inner">
             <!-- Brand -->
@@ -51,13 +53,32 @@ Software.
             @include('template.menu')
         </div>
     </nav>
+    @else
+<body onload="startTime()" class="bg-default">
+        @include('template.auth.topnavbar')
+    @endif
+        
     <!-- Main content -->
     <div class="main-content" id="panel">
-        @include('template.topnavbar')
+        @if (URL::current()!=route('login') && URL::current()!=route('login.locked'))
+            @include('template.topnavbar')
+        @endif
+        
         @yield('content')
-        <!-- Footer -->
-        @include('template.footer')
+        {{-- spinner --}}
+        <div id="overlay">
+            <div class="cv-spinner">
+                <span class="spinner"></span>
+            </div>
+        </div>
+        @if (URL::current()!=route('login') && URL::current()!=route('login.locked'))
+            <!-- Footer -->
+            @include('template.footer')
+        @endif
     </div>
+    @if (URL::current()==route('login') || URL::current()==route('login.locked'))
+        @include('template.auth.footer')
+    @endif
     
     @include('template.scripts')
 </body>

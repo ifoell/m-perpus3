@@ -196,7 +196,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-xl-4">
+        <div class="col-xl-4 sticky-top">
             <div class="card widget-calendar">
                 <!-- Card header -->
                 <div class="card-header bg-gradient-orange">
@@ -227,7 +227,7 @@
             </div>
         </div>
 
-            <div class="col-xl-12" id="seeall">
+            <div class="col-xl-8" id="seeall">
               <div class="card">
                 <div class="card-header border-0 bg-gradient-teal">
                   <div class="row align-items-center">
