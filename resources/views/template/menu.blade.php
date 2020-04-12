@@ -3,66 +3,59 @@
     <div class="collapse navbar-collapse" id="sidenav-collapse-main">
         <!-- Nav items -->
         <ul class="navbar-nav">
-            <li class="nav-item">
-                @if (URL::current()==route('dashboard'))
-                <a class="nav-link" href="#">
+            @foreach(getMenu('admin_menu')->items as $m)
+                <li class="nav-item">
+                @if($m->child->count() > 0)
+                @if (isset($set_active_menu_items))
+                    @if (in_array($m->id, array_keys($set_active_menu_items)))
+                    {{ $set_active_menu_items }}
+                    <a class="nav-link active" href="javascript:void(0)" data-toggle="collapse" role="button" aria-expanded="true" aria-controls="{{ $m->link }}">
                     @else
-                    <a class="nav-link" href="{{ route('dashboard') }}">
-                        @endif
-                        <i class="ni ni-shop text-primary"></i>
-                        <span class="nav-link-text">Dashboards</span>
-                    </a>
-            </li>
-            <li class="nav-item">
-                @if (URL::current()==route('books.index'))
-                <a class="nav-link" href="#">
+                    <a class="nav-link" href="@if(Str::before($m->link, $m->label) == 'navbar-') #{{ $m->link }} @else {{ route($m->link) }} @endif" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="{{ $m->link }}">
+                    @endif
+                @else
+                <a class="nav-link" href="@if(Str::before($m->link, $m->label) == 'navbar-') #{{ $m->link }} @else {{ route($m->link) }} @endif" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="{{ $m->link }}">
+                @endif                        
+                @if(!empty($m->class)) <i class="{{ $m->class }}"></i> @endif
+                    <span class="nav-link-text">{{ $m->label }}</span>
+                </a>
+                @if (isset($set_active_menu_items))
+                    @if (in_array($m->id, array_keys($set_active_menu_items)))
+                    <div class="collapse show" id="{{ $m->link }}">
                     @else
-                    <a class="nav-link" href="{{ route('books.index') }}">
+                    <div class="collapse" id="{{ $m->link }}">
+                    @endif
+                @else
+                <div class="collapse" id="{{ $m->link }}">
+                @endif
+                <ul class="nav nav-sm flex-column">
+                    @foreach ($m->child as $child)
+                    <li class="nav-item">
+                        @if (URL::current()==route($child->link))
+                        <a class="nav-link active" href="javascript:void(0)">
+                        @else
+                        <a class="nav-link active" href="{{ route($child->link) }}">
                         @endif
-                        <i class="ni ni-books text-orange"></i>
-                        <span class="nav-link-text">Books</span>
-                    </a>
-            </li>
-            <li class="nav-item">
-                @if (URL::current()==route('publishers.index'))
-                <a class="nav-link" href="#">
+                        @if(!empty($child->class)) <i class="{{ $child->class }}"></i> @endif
+                        {{ $child->label }}
+                        </a>
+                    </li>
+                    @endforeach
+                </ul>
+                </div>
+                @else
+                    @if (URL::current()==route($m->link))
+                        <a class="nav-link active" href="javascript:void(0)">
                     @else
-                    <a class="nav-link" href="{{ route('publishers.index') }}">
-                        @endif
-                        <i class="ni ni-ui-04 text-info"></i>
-                        <span class="nav-link-text">Publishers</span>
-                    </a>
-            </li>
-            <li class="nav-item">
-                @if (URL::current()==route('person.index'))
-                <a class="nav-link" href="#">
-                    @else
-                    <a class="nav-link" href="{{ route('person.index') }}">
-                        @endif
-                        <i class="ni ni-ui-04 text-green"></i>
-                        <span class="nav-link-text">Person</span>
-                    </a>
-            </li>
-            <li class="nav-item">
-                @if (URL::current()==route('borrow.index'))
-                <a class="nav-link" href="#">
-                    @else
-                    <a class="nav-link" href="{{ route('borrow.index') }}">
-                        @endif
-                        <i class="ni ni-ui-04 text-gray-dark"></i>
-                        <span class="nav-link-text">Borrowing Data</span>
-                    </a>
-            </li>
-            {{-- <li class="nav-item">
-                @if (URL::current()==route('user.index'))
-                <a class="nav-link" href="#">
-                    @else
-                    <a class="nav-link" href="{{ route('user.index') }}">
-                        @endif
-                        <i class="ni ni-ui-04 text-gray-dark"></i>
-                        <span class="nav-link-text">User Data</span>
-                    </a>
-            </li> --}}
+                        <a class="nav-link" href="@if(Str::before($m->link, $m->label) == 'navbar-') #{{ $m->link }} @else {{ route($m->link) }} @endif">
+                    @endif
+                            @if(!empty($m->class)) <i class="{{ $m->class }}"></i> @endif
+                            <span class="nav-link-text">{{ $m->label }}</span>
+                        </a>
+                    </li>
+                @endif
+                
+            @endforeach
         </ul>
     </div>
 </div>

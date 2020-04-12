@@ -46,6 +46,7 @@
                                 <tr>
                                     <th width="2%">#</th>
                                     <th width="20%">Name</th>
+                                    <th width="5%">Gender</th>
                                     <th width="10%">Phone Number</th>
                                     <th>Address</th>
                                     <th width="8%">Action</th>
@@ -74,10 +75,22 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label for="phone" class="col-sm-6">Phone Number</label>
-                                <div class="col-sm-12">
-                                    <input type="text" name="phone" id="phone" class="form-control" placeholder="Type the phone number of person" value="" required>
+                            <div class="row">
+                                <div class="form-group col-8">
+                                    <label for="phone" class="col-sm-6">Phone Number</label>
+                                    <div class="col-sm-12">
+                                        <input type="text" name="phone" id="phone" class="form-control" placeholder="Type the phone number of person" value="" required>
+                                    </div>
+                                </div>
+
+                                <div class="form-group col-4">
+                                    <label for="gender" class="col-sm-6">Gender</label>
+                                    <div class="col-sm-12">
+                                        <select name="gender" id="gender" class="form-control">
+                                            <option value="m">Male</option>
+                                            <option value="f">Female</option>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
     
@@ -132,6 +145,7 @@
                 columns: [
                     {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable:false},
                     {data: 'name', name: 'name'},
+                    {data: 'gender', name: 'gender'},
                     {data: 'phone', name: 'phone'},
                     {data: 'address', name: 'address'},
                     {data: 'action', name: 'action', orderable:false, searchable:false},
@@ -155,6 +169,7 @@
                     $('#ajaxModel').modal('show');
                     $('#person_id').val(data.id);
                     $('#name').val(data.name);
+                    $('#gender').val(data.gender);
                     $('#phone').val(data.phone);
                     $('#address').val(data.address);
                     $('#description').val(data.description);

@@ -23,18 +23,6 @@
             </div>
           </div>
         </div>
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a href="../../pages/examples/login.html" class="nav-link">
-              <span class="nav-link-inner--text">Login</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a href="../../pages/examples/register.html" class="nav-link">
-              <span class="nav-link-inner--text">Register</span>
-            </a>
-          </li>
-        </ul>
         <hr class="d-lg-none" />
         <div class="col text-lg-center">
           <h2><strong><div class="text-lighter" id="ct"></div></strong></h2>

@@ -7,6 +7,8 @@ use App\Publisher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use Harimayco\Menu\Models\Menus;
+use Harimayco\Menu\Models\MenuItems;
 
 class BooksController extends Controller
 {
@@ -20,6 +22,12 @@ class BooksController extends Controller
         // $q = $request->q;
         //get all data
         $books = Book::with(['publisher'])/*->search($q)*/->orderBy('title', 'ASC')->sortable()->paginate(6);
+        // $menu = getMenu('admin_menu');
+        // foreach ($menu->items as $key ) {
+        //     echo $key;
+        //     die;
+        // }
+        // die(pretty_array($menu->items));
         return view('books.index', compact('books'));
     }
 

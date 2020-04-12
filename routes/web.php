@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::redirect('/', 'admin/');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.lock']], function () { //use auth middleware for login and auth.lock for lock screen
     Route::get('/', 'HomeController@index')->name('dashboard');
+    Route::get('menu','MenusController@index')->name('menu.get');
     Route::resource('books', 'BooksController');
     Route::resource('publishers', 'PublishersController')->except([
         'show', 'update', 'create'

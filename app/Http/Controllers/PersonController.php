@@ -17,6 +17,21 @@ class PersonController extends Controller
     {
         if ($request->ajax()) {
             return Datatables::of(Person::latest()->get())
+                        ->editColumn('gender', function($data){
+                        switch ($data->gender) {
+                            case 'm':
+                                return 'Male';
+                                break;
+                            
+                            case 'f':
+                                return 'Female';
+                                break;
+
+                            default:
+                                return 'N/A';
+                                break;
+                        }
+                    })
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
                         $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editPerson"><ion-icon name="create"></ion-icon></a>';
@@ -51,6 +66,7 @@ class PersonController extends Controller
                     ['name' => $request->name,
                     'address' => $request->address,
                     'phone' => $request->phone,
+                    'gender' => $request->gender,
                     'description' => $request->description]
                 );
 

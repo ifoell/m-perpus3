@@ -70,8 +70,10 @@ class LoginController extends Controller
 
         ]);
 
+        $remember = $request->has('remember') ? true : false;
+
         $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
-        if(auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password'])))
+        if(auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password']), $remember))
         {
             return redirect('admin/');
         }else{

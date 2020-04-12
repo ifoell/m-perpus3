@@ -9,6 +9,9 @@ use Illuminate\Support\Str;
 
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Client;
+use Harimayco\Menu\Models\Menus;
+use Harimayco\Menu\Models\MenuItems;
+use Harimayco\Menu\Facades\Menu;
 
 use App\Book;
 use App\Publisher;

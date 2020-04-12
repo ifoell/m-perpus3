@@ -1,4 +1,12 @@
 <?php
+    use Harimayco\Menu\Models\Menus;
+    use Harimayco\Menu\Models\MenuItems;
+
+    function getMenu($name = '')
+    {
+        $menu = Menus::where('name', $name)->first();
+        return $menu;
+    }
 
     // function to check array in pretty way
     function pretty_array($array){

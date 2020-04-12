@@ -28,13 +28,13 @@
               <div class="row justify-content-center">
                 <div class="col-lg-3 order-lg-2">
                   <div class="card-profile-image">
-                    <img src="../../assets/img/theme/team-4.jpg" class="rounded-circle border-secondary">
+                    <img src="../../assets/img/theme/team-5.jpg" class="rounded-circle border-secondary">
                   </div>
                 </div>
               </div>
               <div class="card-body pt-7 px-5">
                 <div class="text-center mb-4">
-                  <h3>Jessica Jones</h3>
+                  <h3>{{ ucfirst(Auth::user()->name) }}</h3>
                 </div>
                 <form role="form" method="POST" action="{{ route('login.unlock') }}" aria-label="{{ __('Locked') }}">
                   @csrf

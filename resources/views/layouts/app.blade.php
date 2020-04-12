@@ -76,5 +76,7 @@
             @yield('content')
         </main>
     </div>
+    <script src="{{asset('assets/vendor/jquery/dist/jquery.min.js')}}"></script>
+    @stack('scripts')
 </body>
 </html>
