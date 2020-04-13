@@ -48,7 +48,7 @@ Breadcrumbs::for('borrow', function ($trail) {
 // Borrow > Add
 Breadcrumbs::for('add_borrow', function ($trail) {
     $trail->parent('borrow');
-    $trail->push('Add Borrow Data', route('books.create'));
+    $trail->push('Add Borrow Data', route('borrow.create'));
 });
 
 // Borrow > show/edit > title
@@ -61,4 +61,21 @@ Breadcrumbs::for('detail_borrow', function ($trail, $borrow) {
 Breadcrumbs::for('edit_borrow', function ($trail, $id) {
     $trail->parent('borrow');
     $trail->push('Edit Borrow Data', route('borrow.edit', $borrow[0]->id));
+});
+
+Breadcrumbs::for('user', function ($trail) {
+    $trail->push('User', route('user.index'));
+});
+
+// User > Add
+Breadcrumbs::for('add_user', function ($trail) {
+    $trail->parent('user');
+    $trail->push('Add User Data', route('user.create'));
+});
+
+// User > show/edit > title
+
+Breadcrumbs::for('edit_user', function ($trail, $id) {
+    $trail->parent('user');
+    $trail->push('Edit User Data', route('user.edit', $user[0]->id));
 });

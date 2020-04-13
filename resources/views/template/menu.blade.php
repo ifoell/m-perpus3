@@ -44,10 +44,12 @@
                 </ul>
                 </div>
                 @else
-                    @if (URL::current()==route($m->link))
+                    @if (Str::before($m->link, $m->label) != 'navbar-')
+                        @if (URL::current()==route($m->link))
                         <a class="nav-link active" href="javascript:void(0)">
-                    @else
+                        @else
                         <a class="nav-link" href="@if(Str::before($m->link, $m->label) == 'navbar-') #{{ $m->link }} @else {{ route($m->link) }} @endif">
+                        @endif
                     @endif
                             @if(!empty($m->class)) <i class="{{ $m->class }}"></i> @endif
                             <span class="nav-link-text">{{ $m->label }}</span>

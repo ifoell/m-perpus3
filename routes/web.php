@@ -33,6 +33,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.lock']], funct
         Route::delete('delete/{id}', 'BorrowController@destroy')->name('borrow.destroy');
         Route::put('return/{id}', 'BorrowController@return')->name('borrow.return');
     });
+    Route::resource('user', 'UserController')->except([
+        'show', 'edit', 'destroy'
+    ]);
+    Route::group(['prefix' => 'user'], function () {
+        Route::get('{id}/edit', 'UserController@edit')->name('user.edit');
+        Route::delete('delete/{id}', 'UserController@destroy')->name('user.destroy');
+    });
 });
 
 //auth

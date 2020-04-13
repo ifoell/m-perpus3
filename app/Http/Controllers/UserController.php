@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\User;
+use App\Roles;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use DataTables;
 
 class UserController extends Controller
 {
@@ -12,9 +15,30 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        $user = User::leftJoin('roles', 'users.roles_id', '=', 'roles.id')
+                    ->select(['users.id',
+                              'users.name',
+                              'users.username',
+                              'users.email',
+                            //   'roles.name AS roles'
+                            DB::raw("(CASE WHEN (roles.name = 'su') THEN 'Super Admin'
+                                        END) AS roles"),
+                            ]);
+
+        if ($request->ajax()) {
+            return Datatables::of($user)
+                    ->addIndexColumn()
+                    ->addColumn('action', function($data){
+                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editUser"><ion-icon name="create"></ion-icon></a>';
+                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteUser"><ion-icon name="trash"></ion-icon></a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        return view('user.index');
     }
 
     /**
@@ -35,7 +59,17 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        User::updateOrCreate(['id' => $request->user_id],
+                    ['name' => $request->name,
+                    'username' => $request->username,
+                    'email' => $request->email,
+                    'password' => $request->password,
+                    'roles_id' => $request->roles_id,
+                    'is_active' => $request->is_active,
+                    'lockout_time' => $request->lockout_time]
+                );
+
+        return response()->json(['success' => 'User Data Saved successfully']);
     }
 
     /**
@@ -57,7 +91,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        //
+        $user = User::find($id);
+        return response()->json($user);
     }
 
     /**
@@ -80,11 +115,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        //
-    }
+        User::find($id)->delete();
 
-    public function login2()
-    {
-        return view('auth2.login');
+        return response()->json(['success' => 'User Data deleted successfully']);
     }
 }
