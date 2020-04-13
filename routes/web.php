@@ -17,7 +17,12 @@ Route::redirect('/', 'admin/');
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.lock']], function () { //use auth middleware for login and auth.lock for lock screen
     Route::get('/', 'HomeController@index')->name('dashboard');
     Route::get('menu','MenusController@index')->name('menu.get');
-    Route::resource('books', 'BooksController');
+    Route::resource('books', 'BooksController')->except([
+        'destroy'
+    ]);
+    Route::group(['prefix' => 'books'], function () {
+        Route::delete('delete/{id}', 'BooksController@destroy')->name('books.destroy');
+    });
     Route::resource('publishers', 'PublishersController')->except([
         'show', 'update', 'create'
     ]);

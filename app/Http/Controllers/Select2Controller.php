@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Publisher;
 use App\Book;
 use App\Person;
+use App\Roles;
 
 class Select2Controller extends Controller
 {
@@ -68,6 +69,28 @@ class Select2Controller extends Controller
             $response[] = array(
                 "id"=>$person->id,
                 "name"=>$person->name,
+            );
+        }
+
+        echo json_encode($response);
+        exit;
+    }
+
+    public function roles(Request $request)
+    {
+        $search = $request->search;
+
+        if ($search == '') {
+            $roles = Roles::orderby('name','asc')->select('id','name')->limit(5)->get();
+        } else {
+            $roles = Roles::orderby('name','asc')->select('id','name')->where('name', 'like', '%' .$search. '%')->limit(5)->get();
+        }
+
+        $response = array();
+        foreach ($roles as $role) {
+            $response[] = array(
+                "id"=>$role->id,
+                "name"=>$role->name,
             );
         }
 

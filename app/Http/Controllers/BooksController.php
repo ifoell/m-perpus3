@@ -7,8 +7,7 @@ use App\Publisher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
-use Harimayco\Menu\Models\Menus;
-use Harimayco\Menu\Models\MenuItems;
+use DataTables;
 
 class BooksController extends Controller
 {
@@ -17,18 +16,49 @@ class BooksController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    // public function index(Request $request)
+    // {
+    //     // $q = $request->q;
+    //     //get all data
+    //     $books = Book::with(['publisher'])/*->search($q)*/->orderBy('title', 'ASC')->sortable()->paginate(6);
+    //     // $menu = getMenu('admin_menu');
+    //     // foreach ($menu->items as $key ) {
+    //     //     echo $key;
+    //     //     die;
+    //     // }
+    //     // die(pretty_array($menu->items));
+    //     return view('books.index', compact('books'));
+    // }
+
     public function index(Request $request)
     {
-        // $q = $request->q;
-        //get all data
-        $books = Book::with(['publisher'])/*->search($q)*/->orderBy('title', 'ASC')->sortable()->paginate(6);
-        // $menu = getMenu('admin_menu');
-        // foreach ($menu->items as $key ) {
-        //     echo $key;
-        //     die;
-        // }
-        // die(pretty_array($menu->items));
-        return view('books.index', compact('books'));
+        $book = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
+                    ->select(['books.id',
+                              'books.title',
+                              'books.author AS author',
+                              'publishers.name AS publisher',
+                              'books.isbn',
+                              'books.edition'
+                            ]);
+            
+        if ($request->ajax()) {
+            
+            return Datatables::of($book)
+                    ->editColumn('author', function($data){
+                        substr($data, 0, 10);
+                    })
+                    ->addIndexColumn()
+                    ->addColumn('action', function($data){
+                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Show" class="edit btn btn-info btn-sm showBooks" title="Detail" data-id="'.$data->id.'"><ion-icon name="eye"></ion-icon></a>';
+                        $btn = $btn.'<a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Edit" class="edit btn btn-primary btn-sm editBooks" title="Edit" data-id="'.$data->id.'"><ion-icon name="create"></ion-icon></a>';
+                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip" data-original-title="Delete" class="btn btn-danger btn-sm deleteBooks" title="Delete" data-id="'.$data->id.'"><ion-icon name="trash"></ion-icon></a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+        return view('books.index');
     }
 
     /**
@@ -130,12 +160,15 @@ class BooksController extends Controller
      * @param  \App\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Book $book)
+    public function destroy($id)
     {
-        //delete data
-        $book->delete();
-        return redirect()->route('books.index')
-            ->with('success', 'Book deleted successfully');
+        $book = Book::find($id);
+        if ($book) {
+            Book::destroy($id);
+            return response()->json([
+                'success' => 'Data Deleted successfully'
+            ]);
+        }
 
     }
 

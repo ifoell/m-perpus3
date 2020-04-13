@@ -50,6 +50,7 @@
                                     <th width="20%">Username</th>
                                     <th width="25%">E-Mail</th>
                                     <th>Role</th>
+                                    <th width="5%">Active?</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -90,13 +91,14 @@
                     {data: 'username', name: 'users.username'},
                     {data: 'email', name: 'users.email'},
                     {data: 'roles', name: 'roles.name'},
+                    {data: 'is_active', name: 'users.is_active'},
                     {data: 'action', name: 'action', orderable:false, searchable:false},
                 ],
                 order: [[1, 'asc']]
             });
 
             $('#addNew').click(function() {
-                window.location.href='{{ route('borrow.create') }}';
+                window.location.href='{{ route('user.create') }}';
             });
 
             $('body').on('click', '.showBorrow', function() {
@@ -109,14 +111,14 @@
                 window.location.href = "/admin/borrow/" + borrow_id + '/edit';
             });
 
-            $('body').on('click', '.deleteBorrow', function () {
+            $('body').on('click', '.deleteUser', function () {
      
                 var id = $(this).data("id");
                 var token = $("meta[name='csrf-token']").attr("content");
                 if (confirm("Are You sure want to delete !")) {
                     $.ajax({
                     type: "DELETE",
-                    url: "borrow/delete"+'/'+id,
+                    url: "user/delete"+'/'+id,
                     data: {
                         "id": id,
                         "_token": token,

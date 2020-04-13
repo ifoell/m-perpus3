@@ -40,58 +40,20 @@
                     </div>
                     @endif
 
-                    <div class="table-responsive" id="booksTable" data-toggle="list" data-list-values='["title", "author", "publisher", "isbn"]'>
-                        <table class="table align-items-center table-flush table-striped table-hover">
-                            <thead class="thead-dark">
+                    <div class="table-responsive pr-2 pl-2">
+                        <table style="width: 100%" class="table table-info table-bordered data-table table-responsive">
+                            <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col" class="sort" data-sort="title">Title</th>
-                                    <th scope="col" class="sort" data-sort="author">Author</th>
-                                    <th scope="col" class="sort" data-sort="publisher">Publisher</th>
-                                    <th scope="col" class="sort" data-sort="isbn">isbn</th>
-                                    <th scope="col">Edition</th>
-                                    <th scope="col" width="160px">Action</th>
+                                    <th width="2%">#</th>
+                                    <th width="15%">Title</th>
+                                    <th width="20%">Author</th>
+                                    <th width="25%">Publisher</th>
+                                    <th>ISBN</th>
+                                    <th>Edition</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
-
-                            @foreach ($books as $key => $book)
-                            <tbody class="list">
-                                <tr>
-                                    <td scope="row">{{ $key+1 }}</td>
-                                    <td>{{ $book->title }}</td>
-                                    <td>{{ Str::limit($book->author,20) }}</td>
-                                    <td>{{ Str::limit($book->publisher->name,20) }}</td>
-                                    <td>{{ $book->isbn }}</td>
-                                    <td>{{ Str::limit($book->edition,16) }}</td>
-                                    <td>
-                                        <form action="{{ route('books.destroy', $book->id) }}" method="post">
-                                            <a onclick="window.location.href = '{{ route('books.show', $book->id) }}'" href="javascript:void(0);" class="btn btn-sm btn-info" title="Show Data">
-                                                <i class="ni ni-zoom-split-in"></i></a>
-                                            <a onclick="window.location.href = '{{ route('books.edit', $book->id) }}'" href="javascript:void(0);" class="btn btn-sm btn-success" title="Edit Data">
-                                                <i class="ni ni-ruler-pencil"></i>
-                                            </a>
-
-                                            @csrf
-                                            @method('delete')
-                                            <a href="javascript:void(0);">
-                                            <button type="submit" onclick="$(this).closest('form').submit();" class="btn btn-sm btn-danger" title="Delete Data">
-                                                <i class="ni ni-fat-remove"></i>
-                                            </button>
-                                        </a>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            @endforeach
                         </table>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <small>Page : {{ $books->currentPage() }}</small> &nbsp;&nbsp;&nbsp; |
-                    <small>Total Data : {{ $books->total() }}</small>&nbsp;&nbsp;&nbsp; |
-                    <small>Data per Page : {{ $books->perPage() }}</small>
-                    <div class="float-right">
-                        <small>{{ $books->links() }}</small>
                     </div>
                 </div>
             </div>
@@ -100,3 +62,81 @@
 </div>
 
 @endsection
+
+@push('scripts')
+    <script>
+        $(function() {
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            var table = $('.data-table').DataTable({
+                processing: true,
+                serverSide: true,
+                responsive: true,
+                autoWidth: false,
+                
+                ajax: "{{ route('books.index') }}",
+                columns: [
+                    {data: 'DT_RowIndex', name: 'DT_RowIndex', orderable:false, searchable:false},
+                    {data: 'title', name: 'books.title'},
+                    {data: 'author', name: 'books.author'},
+                    {data: 'publisher', name: 'publishers.name'},
+                    {data: 'isbn', name: 'books.isbn'},
+                    {data: 'edition', name: 'books.edition'},
+                    {data: 'action', name: 'action', orderable:false, searchable:false},
+                ],
+                order: [[1, 'asc']]
+            });
+
+            $('#addNew').click(function() {
+                window.location.href='{{ route('books.create') }}';
+            });
+
+            $('body').on('click', '.showBooks', function() {
+                var books_id = $(this).data('id');
+                window.location.href = "/admin/books/" + books_id;
+            });
+
+            $('body').on('click', '.editBooks', function() {
+                var books_id = $(this).data('id');
+                window.location.href = "/admin/books/" + books_id + '/edit';
+            });
+
+            $('body').on('click', '.deleteBooks', function () {
+     
+                var id = $(this).data("id");
+                var token = $("meta[name='csrf-token']").attr("content");
+                if (confirm("Are You sure want to delete !")) {
+                    $.ajax({
+                    type: "DELETE",
+                    url: "books/delete"+'/'+id,
+                    data: {
+                        "id": id,
+                        "_token": token,
+                    },
+                    success: function (data) {
+                        console.log('Success:', data);
+                        table.draw();
+                        
+                        $('#flashmsg').html(
+                            '<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                                '<strong>Data Deleted Successfully<strong>'+
+                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                                    '<span aria-hidden="true">&times;</span>'+
+                                '</button>'+
+                            '</div>')
+                    },
+                    error: function (data) {
+                        console.log('Error:', data);
+                    }
+                });
+                }
+            });
+
+        });
+    </script>
+@endpush

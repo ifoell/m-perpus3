@@ -35,3 +35,5 @@ Route::group(['prefix' => 'publishers'], function () {
 Route::group(['prefix' => 'person'], function () {
     Route::post('/get_name', 'Select2Controller@person_name');
 });
+
+Route::post('/roles', 'Select2Controller@roles');

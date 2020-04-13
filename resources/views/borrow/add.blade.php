@@ -69,10 +69,10 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                  <label class="form-control-label" for="borrow_at">Borrow From</label>
-                                  <input class="form-control datepicker" name="borrow_at" id="borrow_at" placeholder="Select date" type="text" data-date-format="yyyy-mm-dd">
+                                    <label class="form-control-label" for="borrow_at">Borrow From</label>
+                                    <input class="form-control datepicker" name="borrow_at" id="borrow_at" placeholder="Select date" type="text" data-date-format="yyyy-mm-dd">
                                 </div>
-                              </div>
+                            </div>
                             <div class="col-md-12 text-right">
                                 <button type="submit" class="btn btn-primary">Submit</button>
                                 <a href="{{ route('borrow.index') }}">
@@ -80,7 +80,7 @@
                                 </a>
                             </div>
                         </div>
-    
+
                     </form>
                 </div>
             </div>

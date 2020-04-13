@@ -7,6 +7,7 @@ use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\User;
 
 class LoginController extends Controller
 {
@@ -64,6 +65,11 @@ class LoginController extends Controller
     {
         $input = $request->all();
 
+        $user = User::where('username',$request->username)->first();
+        if( $user && $user->is_active == 'n'){
+            return redirect()->back()->with('error','the user has been desactivated');
+        }
+
         $this->validate($request, [
             'username' => 'required',
             'password' => 'required',
@@ -77,7 +83,7 @@ class LoginController extends Controller
         {
             return redirect('admin/');
         }else{
-            return redirect()->route('login')
+            return redirect()->back()
                 ->with('error','Email-Address And Password Are Wrong.');
         }
     }

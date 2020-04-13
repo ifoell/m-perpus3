@@ -6,6 +6,7 @@ use App\User;
 use App\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use DataTables;
 
 class UserController extends Controller
@@ -25,6 +26,9 @@ class UserController extends Controller
                             //   'roles.name AS roles'
                             DB::raw("(CASE WHEN (roles.name = 'su') THEN 'Super Admin'
                                         END) AS roles"),
+                            //   'users.is_active',
+                            DB::raw("(CASE WHEN (users.is_active = 'y') THEN 'Yes'
+                                     ELSE 'No' END) AS is_active"),
                             ]);
 
         if ($request->ajax()) {
@@ -48,7 +52,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('user.add');
     }
 
     /**
@@ -59,17 +63,29 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        User::updateOrCreate(['id' => $request->user_id],
-                    ['name' => $request->name,
-                    'username' => $request->username,
-                    'email' => $request->email,
-                    'password' => $request->password,
-                    'roles_id' => $request->roles_id,
-                    'is_active' => $request->is_active,
-                    'lockout_time' => $request->lockout_time]
-                );
+        //form validation
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'roles_id' => ['required'],
+            'lockout_time' => ['required'],
+            'is_active' => ['required'],
+        ]);
 
-        return response()->json(['success' => 'User Data Saved successfully']);
+        User::create([
+            'name' => $request['name'],
+            'username' => $request['username'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'roles_id' => $request['roles_id'],
+            'lockout_time' => $request['lockout_time'],
+            'is_active' => $request['is_active'],
+        ]);
+        
+        return redirect()->route('user.index')
+            ->with('success', 'New User added successfully');
     }
 
     /**
@@ -113,7 +129,7 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
         User::find($id)->delete();
 
