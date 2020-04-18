@@ -7,6 +7,7 @@ use App\Roles;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Rules\MatchOldPassword;
 use DataTables;
 
 class UserController extends Controller
@@ -105,10 +106,11 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        $user = User::find($id);
-        return response()->json($user);
+        $user = User::where('id', $id)->get();
+        $roles = Roles::all();
+        return view('user.edit', compact('user', 'roles'));
     }
 
     /**
@@ -118,9 +120,30 @@ class UserController extends Controller
      * @param  \App\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        //
+        //form validation
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'roles_id' => ['required'],
+            'lockout_time' => ['required'],
+            'is_active' => ['required'],
+        ]);
+
+        $user = User::find($id);
+        $user->update([
+            'name' => $request['name'],
+            'username' => $request['username'],
+            'email' => $request['email'],
+            'roles_id' => $request['roles_id'],
+            'lockout_time' => $request['lockout_time'],
+            'is_active' => $request['is_active'],
+        ]);
+        
+        return redirect()->route('user.index')
+            ->with('success', 'User updated successfully');
     }
 
     /**
@@ -134,5 +157,24 @@ class UserController extends Controller
         User::find($id)->delete();
 
         return response()->json(['success' => 'User Data deleted successfully']);
+    }
+
+    public function changePwd()
+    {
+        return view('user.change_password');
+    }
+
+    public function change(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'new_password' => ['required'],
+            'new_confirm_password' => ['same:new_password'],
+        ]);
+   
+        User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+   
+        return redirect()->back()
+            ->with('success', 'Password Updated Successfully');
     }
 }

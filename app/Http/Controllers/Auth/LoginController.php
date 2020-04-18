@@ -81,7 +81,8 @@ class LoginController extends Controller
         $fieldType = filter_var($request->username, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
         if(auth()->attempt(array($fieldType => $input['username'], 'password' => $input['password']), $remember))
         {
-            return redirect('admin/');
+            return redirect()->route('dashboard')
+                ->with('success', 'Welcome to M-Perpus!');
         }else{
             return redirect()->back()
                 ->with('error','Email-Address And Password Are Wrong.');
@@ -106,13 +107,11 @@ class LoginController extends Controller
         $check = Hash::check($request->input('password'), $request->user()->password);
 
         if (!$check) {
-            return redirect()->route('login.locked')->withErrors([
-                'Your password does not match your profile.'
-            ]);
+            return redirect()->back()->with('error','Password doesn\'t match');
         }
 
         session(['lock-expires-at' => now()->addMinutes($request->user()->getLockoutTime())]);
 
-        return redirect('/');
+        return redirect()->route('dashboard')->with('success','Welcome Back');
     }
 }

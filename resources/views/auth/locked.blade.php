@@ -24,6 +24,16 @@
       <div class="container mt--8 pb-5">
         <div class="row justify-content-center">
           <div class="col-lg-5 col-md-7">
+            @if ($message = Session::get('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>
+                    <p>{{ $message }}</p>
+                </strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
             <div class="card card-profile bg-secondary mt-5">
               <div class="row justify-content-center">
                 <div class="col-lg-3 order-lg-2">

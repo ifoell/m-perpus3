@@ -17,26 +17,12 @@ class BooksController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    // public function index(Request $request)
-    // {
-    //     // $q = $request->q;
-    //     //get all data
-    //     $books = Book::with(['publisher'])/*->search($q)*/->orderBy('title', 'ASC')->sortable()->paginate(6);
-    //     // $menu = getMenu('admin_menu');
-    //     // foreach ($menu->items as $key ) {
-    //     //     echo $key;
-    //     //     die;
-    //     // }
-    //     // die(pretty_array($menu->items));
-    //     return view('books.index', compact('books'));
-    // }
-
     public function index(Request $request)
     {
         $book = Book::leftJoin('publishers', 'books.publisher_id', '=', 'publishers.id')
                     ->select(['books.id',
                               'books.title',
-                              'books.author AS author',
+                              'books.author',
                               'publishers.name AS publisher',
                               'books.isbn',
                               'books.edition'
@@ -45,8 +31,19 @@ class BooksController extends Controller
         if ($request->ajax()) {
             
             return Datatables::of($book)
+                    ->editColumn('title', function($data){
+                        if (strlen($data->title) > 20) {
+                            return substr($data->title, 0, 20);
+                        } else {
+                            return $data->title;
+                        }
+                    })
                     ->editColumn('author', function($data){
-                        substr($data, 0, 10);
+                        if (strlen($data->author) > 20) {
+                            return substr($data->author, 0, 20);
+                        } else {
+                            return $data->author;
+                        }
                     })
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
@@ -96,8 +93,8 @@ class BooksController extends Controller
 
         Book::create($request->all()); //create function
         
-        return redirect()->route('books.index')
-            ->with('success', 'Book added successfully');
+        return redirect()->back()
+            ->with('success', 'Book added successfully you can go back to check by ');
     }
 
     /**

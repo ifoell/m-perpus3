@@ -23,20 +23,16 @@
       <div class="container mt--8 pb-5">
         <div class="row justify-content-center">
           <div class="col-lg-5 col-md-7">
-            @if ($errors->any())
-                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                        <strong>Whoops!</strong> There were some problems with your input.
-                        <br><br>
-                        <ul>
-                            @foreach ($error->all() as $err)
-                                <li>{{ $err }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                    @endif
+            @if ($message = Session::get('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong>
+                    <p>{{ $message }}</p>
+                </strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
             <div class="card bg-secondary border-0 mb-0">
               <div class="card-body px-lg-5 py-lg-5">
                 <form role="form" method="POST" action="{{ route('login') }}">

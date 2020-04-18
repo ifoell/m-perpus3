@@ -101,14 +101,9 @@
                 window.location.href='{{ route('user.create') }}';
             });
 
-            $('body').on('click', '.showBorrow', function() {
-                var borrow_id = $(this).data('id');
-                window.location.href = "/admin/borrow/" + borrow_id + '/detail';
-            });
-
-            $('body').on('click', '.editBorrow', function() {
-                var borrow_id = $(this).data('id');
-                window.location.href = "/admin/borrow/" + borrow_id + '/edit';
+            $('body').on('click', '.editUser', function() {
+                var user_id = $(this).data('id');
+                window.location.href = "/admin/user/" + user_id + '/edit';
             });
 
             $('body').on('click', '.deleteUser', function () {

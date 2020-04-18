@@ -73,9 +73,9 @@ Breadcrumbs::for('add_user', function ($trail) {
     $trail->push('Add User Data', route('user.create'));
 });
 
-// User > show/edit > title
+// User > show/edit
 
-Breadcrumbs::for('edit_user', function ($trail, $id) {
+Breadcrumbs::for('edit_user', function ($trail, $user) {
     $trail->parent('user');
-    $trail->push('Edit User Data', route('user.edit', $user[0]->id));
+    $trail->push($user, route('user.edit', $user));
 });

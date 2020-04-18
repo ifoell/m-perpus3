@@ -41,7 +41,7 @@
                     @endif
 
                     <div class="table-responsive pr-2 pl-2">
-                        <table style="width: 100%" class="table table-info table-bordered data-table table-responsive">
+                        <table style="width: 100%" class="table table-info table-bordered table-hover data-table table-responsive">
                             <thead>
                                 <tr>
                                     <th width="2%">#</th>

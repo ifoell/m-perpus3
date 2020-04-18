@@ -25,6 +25,16 @@
             <div class="card">
                 <!-- Card body -->
                 <div class="card-body">
+                    @if ($message = Session::get('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        <strong>
+                            <p>{{ $message }}<a href="{{ route('books.index') }}">click here!</a></p>
+                        </strong>
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    @endif
                     @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <button type="button" class="close" data-dismiss="alert" aria-label="Close">

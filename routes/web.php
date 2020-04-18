@@ -44,6 +44,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.lock']], funct
     Route::group(['prefix' => 'user'], function () {
         Route::get('{id}/edit', 'UserController@edit')->name('user.edit');
         Route::delete('delete/{id}', 'UserController@destroy')->name('user.destroy');
+        Route::get('changepwd', 'UserController@changePwd')->name('user.changepwd');
+        Route::post('changepwd', 'UserController@change')->name('user.change');
     });
 });
 
