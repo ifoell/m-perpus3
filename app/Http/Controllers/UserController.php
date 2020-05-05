@@ -166,15 +166,30 @@ class UserController extends Controller
 
     public function change(Request $request)
     {
-        $request->validate([
-            'current_password' => ['required', new MatchOldPassword],
-            'new_password' => ['required'],
-            'new_confirm_password' => ['same:new_password'],
-        ]);
-   
-        User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
-   
-        return redirect()->back()
-            ->with('success', 'Password Updated Successfully');
+        if ($request->ajax()) {
+            $request->validate([
+                'new_password' => ['required', 'string', 'min:8'],
+                'new_confirm_password' => ['same:new_password']
+            ]);
+
+            $id = $request['user_id'];
+    
+            $user = User::find($id);
+            $user->update([
+                'password' => Hash::make($request['new_password'])
+            ]);
+            return response()->json(['success' => 'Password Changed successfully']);
+        } else {
+            $request->validate([
+                'current_password' => ['required', new MatchOldPassword],
+                'new_password' => ['required'],
+                'new_confirm_password' => ['same:new_password'],
+            ]);
+    
+            User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+    
+            return redirect()->back()
+                ->with('success', 'Password Updated Successfully');
+        }
     }
 }

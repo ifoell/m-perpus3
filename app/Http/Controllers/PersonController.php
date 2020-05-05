@@ -114,7 +114,7 @@ class PersonController extends Controller
      * @param  \App\Person  $person
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Person $person)
+    public function destroy($id)
     {
         Person::find($id)->delete();
 

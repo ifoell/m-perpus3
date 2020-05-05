@@ -20,7 +20,7 @@
 <div class="container-fluid mt--6 pb-5">
 
     <div class="row">
-        <div class="col-xl-8 col-lg-8 margin-tb">
+        <div class="col-xl-7 col-lg-7 margin-tb">
             <!-- Members list group card -->
             <div class="card">
                 <!-- Card body -->
@@ -100,6 +100,36 @@
                 </div>
             </div>
         </div>
+        <div class="col-xl-5 col-lg-5 margin-tb">
+            <div class="card">
+                <div class="card-header bg-gradient-red">
+                    <h4>Change Password</h4>
+                </div>
+                <div class="card-body">
+                    <div id="flashmsg"></div>
+                    <form action="{{ route('user.change') }}" method="post" id="changPwdForm">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="password">New Password</label>
+                                    <input type="password" name="new_password" id="new_password" class="form-control" placeholder="Input New Password" required autocomplete="new-password">
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="confirm_password">Confirm New Password</label>
+                                    <input type="password" name="new_confirm_password" id="confirm_password" class="form-control" placeholder="Confirm New Password" required autocomplete="confirm-new-password">
+                                </div>
+                            </div>
+                            <div class="col-12 text-right">
+                                <input type="hidden" name="user_id" id="user_id" value="{{ $user[0]->id }}">
+                                <button type="submit" class="btn btn-primary" id="saveBtn">Change Password</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -122,6 +152,39 @@
                 {
                     $('#hidden_active').val('n');
                 }
+            });
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $('#saveBtn').click(function (e) {
+               e.preventDefault();
+               $(this).html('Sending...');
+
+               $.ajax({
+                   data : $('#changPwdForm').serialize(),
+                   url : $('#changPwdForm').attr('action'),
+                   type : "POST",
+                   dataType : 'json',
+                   success: function (data) {
+                       $('#changPwdForm').trigger("reset");
+                       $('#saveBtn').html('Change Password');
+                       $('#flashmsg').html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                                                    '<span aria-hidden="true">&times;</span>'+
+                                                '</button>'+
+                                                '<strong>'+data.success+'</strong>'+
+                                            '</div>');
+                   },
+
+                   error: function (data) {
+                       console.log('Error: ', data);
+                       $('#saveBtn').html('Change Password');
+                   }
+               });
             });
         });
 </script>

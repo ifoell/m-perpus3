@@ -29,16 +29,7 @@
             <div class="card">
                 <!-- Card body -->
                 <div class="card-body">
-                    @if ($message = Session::get('success'))
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        <strong>
-                            <p>{{ $message }}</p>
-                        </strong>
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    @endif
+                    <div id="flashmsg"></div>
 
                     <div class="table-responsive pr-2 pl-2">
                         <table class="table table-primary table-bordered data-table table-responsive">
@@ -189,6 +180,12 @@
                        $('#personForm').trigger("reset");
                        $('#ajaxModel').modal('hide');
                        $('#saveBtn').html('Save Changes');
+                       $('#flashmsg').html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                                                    '<span aria-hidden="true">&times;</span>'+
+                                                '</button>'+
+                                                '<strong>'+data.success+'</strong>'+
+                                            '</div>');
                        table.draw();
                    },
 
@@ -208,6 +205,12 @@
                     url: "{{ route('person.store') }}"+'/'+person_id,
                     success: function (data) {
                         table.draw();
+                        $('#flashmsg').html('<div class="alert alert-success alert-dismissible fade show" role="alert">'+
+                                                '<button type="button" class="close" data-dismiss="alert" aria-label="Close">'+
+                                                    '<span aria-hidden="true">&times;</span>'+
+                                                '</button>'+
+                                                '<strong>'+data.success+'</strong>'+
+                                            '</div>');
                     },
                     error: function (data) {
                         console.log('Error:', data);
