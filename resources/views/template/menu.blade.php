@@ -3,6 +3,9 @@
     <div class="collapse navbar-collapse" id="sidenav-collapse-main">
         <!-- Nav items -->
         <ul class="navbar-nav">
+            @php
+                if (getMenu('admin_menu') != null) {
+            @endphp
             @foreach(getMenu('admin_menu')->items as $m)
                 <li class="nav-item">
                 @if($m->child->count() > 0)
@@ -15,7 +18,7 @@
                     @endif
                 @else
                 <a class="nav-link" href="@if(Str::before($m->link, $m->label) == 'navbar-') #{{ $m->link }} @else {{ route($m->link) }} @endif" data-toggle="collapse" role="button" aria-expanded="false" aria-controls="{{ $m->link }}">
-                @endif                        
+                @endif
                 @if(!empty($m->class)) <i class="{{ $m->class }}"></i> @endif
                     <span class="nav-link-text">{{ $m->label }}</span>
                 </a>
@@ -56,8 +59,11 @@
                         </a>
                     </li>
                 @endif
-                
+
             @endforeach
+            @php
+                }
+            @endphp
         </ul>
     </div>
 </div>
