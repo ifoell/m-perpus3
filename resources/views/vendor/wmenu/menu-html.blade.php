@@ -151,7 +151,7 @@ $currentUrl = url()->current();
 																	</p>
 
 																	<p class="field-css-classes description description-thin">
-																		<label for="edit-menu-item-classes-{{$m->id}}"> Class CSS (optional)
+																		<label for="edit-menu-item-classes-{{$m->id}}"> Icon Class (optional)
 																			<br>
 																			<input type="text" id="clases_menu_{{$m->id}}" class="widefat code edit-menu-item-classes" name="clases_menu_{{$m->id}}" value="{{$m->class}}">
 																		</label>

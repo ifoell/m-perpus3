@@ -24,8 +24,9 @@ class UserController extends Controller
                               'users.name',
                               'users.username',
                               'users.email',
-                            //   'roles.name AS roles'
+                            //   'roles.name AS roles',
                             DB::raw("(CASE WHEN (roles.name = 'su') THEN 'Super Admin'
+                                        ELSE roles.name
                                         END) AS roles"),
                             //   'users.is_active',
                             DB::raw("(CASE WHEN (users.is_active = 'y') THEN 'Yes'
@@ -84,7 +85,7 @@ class UserController extends Controller
             'lockout_time' => $request['lockout_time'],
             'is_active' => $request['is_active'],
         ]);
-        
+
         return redirect()->route('user.index')
             ->with('success', 'New User added successfully');
     }
@@ -141,7 +142,7 @@ class UserController extends Controller
             'lockout_time' => $request['lockout_time'],
             'is_active' => $request['is_active'],
         ]);
-        
+
         return redirect()->route('user.index')
             ->with('success', 'User updated successfully');
     }
@@ -173,7 +174,7 @@ class UserController extends Controller
             ]);
 
             $id = $request['user_id'];
-    
+
             $user = User::find($id);
             $user->update([
                 'password' => Hash::make($request['new_password'])
@@ -185,9 +186,9 @@ class UserController extends Controller
                 'new_password' => ['required'],
                 'new_confirm_password' => ['same:new_password'],
             ]);
-    
+
             User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
-    
+
             return redirect()->back()
                 ->with('success', 'Password Updated Successfully');
         }

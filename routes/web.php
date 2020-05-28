@@ -47,6 +47,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'auth.lock']], funct
         Route::get('changepwd', 'UserController@changePwd')->name('user.changepwd');
         Route::post('changepwd', 'UserController@change')->name('user.change');
     });
+    Route::resource('roles', 'RolesController')->except([
+        'show', 'update', 'create'
+    ]);
 });
 
 //auth

@@ -27,7 +27,7 @@ class PublishersController extends Controller
                     ->make(true);
         }
 
-        return view('publisher.index');
+        // return view('publisher.index');
     }
 
     /**
@@ -114,7 +114,7 @@ class PublishersController extends Controller
      *     summary="Returns all Publishers Data",
      *     description="API Publishers",
      *     operationId="getpublishers",
-     *     
+     *
      *     @OA\Response(
      *         response=200,
      *         description="successful operation",
@@ -125,7 +125,7 @@ class PublishersController extends Controller
      *              )
      *          )
      *     ),
-     *     
+     *
      *     @OA\Response(
      *         response="default",
      *         description="Success get all data"

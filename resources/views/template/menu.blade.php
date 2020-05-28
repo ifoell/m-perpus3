@@ -48,6 +48,8 @@
                 </div>
                 @else
                     @if (Str::before($m->link, $m->label) != 'navbar-')
+                    {{--add [navbar-] before the link
+                    example link = navbar-books label = books--}}
                         @if (URL::current()==route($m->link))
                         <a class="nav-link active" href="javascript:void(0)">
                         @else

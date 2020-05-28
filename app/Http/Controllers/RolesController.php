@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Roles;
 use Illuminate\Http\Request;
+use DataTables;
 
 class RolesController extends Controller
 {
@@ -12,9 +13,21 @@ class RolesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        
+        if ($request->ajax()) {
+            return Datatables::of(Roles::latest()->get())
+                    ->addIndexColumn()
+                    ->addColumn('action', function($data){
+                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editPublisher"><ion-icon name="create"></ion-icon></a>';
+                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deletePublisher"><ion-icon name="trash"></ion-icon></a>';
+                        return $btn;
+                    })
+                    ->rawColumns(['action'])
+                    ->make(true);
+        }
+
+        return view('roles.index');
     }
 
     /**

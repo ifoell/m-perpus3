@@ -85,7 +85,7 @@
                                         <input id="is_active" class="is_active" type="checkbox" @if($user[0]->is_active == 'y') checked @endif>
                                         <span class="custom-toggle-slider rounded-circle" data-label-off="No" data-label-on="Yes"></span>
                                     </label>
-                                    <input type="hidden" name="is_active" id="hidden_active">
+                                    <input type="hidden" name="is_active" id="hidden_active" value={{ $user[0]->is_active }}>
                                 </div>
                             </div>
                             <div class="col-md-12 text-right">
@@ -95,7 +95,7 @@
                                 </a>
                             </div>
                         </div>
-    
+
                     </form>
                 </div>
             </div>
