@@ -81,9 +81,9 @@ class Select2Controller extends Controller
         $search = $request->search;
 
         if ($search == '') {
-            $roles = Roles::orderby('name','asc')->select('id','name')->limit(5)->get();
+            $roles = Roles::orderby('name','asc')->select('id','name')->where('is_active', '=', 'y')->limit(5)->get();
         } else {
-            $roles = Roles::orderby('name','asc')->select('id','name')->where('name', 'like', '%' .$search. '%')->limit(5)->get();
+            $roles = Roles::orderby('name','asc')->select('id','name')->where(['name', 'like', '%' .$search. '%'],['is_active', '=', 'y'])->limit(5)->get();
         }
 
         $response = array();

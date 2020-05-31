@@ -110,7 +110,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::where('id', $id)->get();
-        $roles = Roles::all();
+        $roles = Roles::orderby('name','asc')->select('id','name')->where('is_active', '=', 'y')->limit(5)->get();
         return view('user.edit', compact('user', 'roles'));
     }
 
