@@ -37,18 +37,23 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $client = new Client();
-        $request = new \GuzzleHttp\Psr7\Request('GET', 'https://kawalcovid19.harippe.id/api/summary');
-        $promise = $client->sendAsync($request)->then(function ($response) {
-            return $response->getBody();
-        });
-        $covidindo = json_decode($promise->wait());
+        if (is_connected()){
+            $client = new Client();
+            $request = new \GuzzleHttp\Psr7\Request('GET', 'https://kawalcovid19.harippe.id/api/summary');
+            $promise = $client->sendAsync($request)->then(function ($response) {
+                return $response->getBody();
+            });
+            $covidindo = json_decode($promise->wait());
 
-        $request = new \GuzzleHttp\Psr7\Request('GET', 'https://api.kawalcorona.com/indonesia/provinsi/');
-        $promise = $client->sendAsync($request)->then(function ($response) {
-            return $response->getBody();
-        });
-        $covidprov = json_decode($promise->wait());
+            $request = new \GuzzleHttp\Psr7\Request('GET', 'https://api.kawalcorona.com/indonesia/provinsi/');
+            $promise = $client->sendAsync($request)->then(function ($response) {
+                return $response->getBody();
+            });
+            $covidprov = json_decode($promise->wait());
+        } else {
+            $covidindo = '';
+            $covidprov = '';
+        }
 
         $book = Book::all();
         $publisher = Publisher::all();

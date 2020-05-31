@@ -112,6 +112,6 @@ class LoginController extends Controller
 
         session(['lock-expires-at' => now()->addMinutes($request->user()->getLockoutTime())]);
 
-        return redirect()->route('dashboard')->with('success','Welcome Back');
+        return redirect()->back()->with('success','Welcome Back');
     }
 }

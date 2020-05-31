@@ -134,7 +134,7 @@
                                     </h3>
                                 </div>
                                 <div class="col-auto">
-                                    <h4 class="mb-0">{{ $covidindo->confirmed->value }}</h4>
+                                    <h4 class="mb-0">@if($covidindo != null) {{ $covidindo->confirmed->value }} @endif</h4>
                                 </div>
                             </div>
                         </li>
@@ -147,7 +147,7 @@
                                     </h3>
                                 </div>
                                 <div class="col-auto">
-                                    <h4 class="mb-0">{{ $covidindo->recovered->value }}</h4>
+                                    <h4 class="mb-0">@if($covidindo != null) {{ $covidindo->recovered->value }} @endif</h4>
                                 </div>
                             </div>
                         </li>
@@ -161,7 +161,7 @@
                                     </h3>
                                 </div>
                                 <div class="col-auto">
-                                    <h4 class="mb-0">{{ $covidindo->deaths->value }}</h4>
+                                    <h4 class="mb-0">@if($covidindo != null) {{ $covidindo->deaths->value }} @endif</h4>
                                 </div>
                             </div>
                         </li>
@@ -175,14 +175,14 @@
                                     </h3>
                                 </div>
                                 <div class="col-auto">
-                                    <h4 class="mb-0">{{ $covidindo->activeCare->value }}</h4>
+                                    <h4 class="mb-0">@if($covidindo != null) {{ $covidindo->activeCare->value }} @endif</h4>
                                 </div>
                             </div>
                         </li>
                     </ul>
                 </div>
                 <div class="card-footer">
-                    <small>Last Updated At : <strong>{{ Str::replaceFirst('T', ' ', $covidindo->metadata->lastUpdatedAt). ' ('.time_elapsed_string($covidindo->metadata->lastUpdatedAt).')' }}</strong></small>
+                    <small>Last Updated At : <strong>@if($covidindo != null) {{ Str::replaceFirst('T', ' ', $covidindo->metadata->lastUpdatedAt). ' ('.time_elapsed_string($covidindo->metadata->lastUpdatedAt).')' }} @endif</strong></small>
                 </div>
             </div>
         </div>
@@ -249,23 +249,26 @@
                       </tr>
                     </thead>
                     <tbody>
-                        @foreach ($covidprov as $cvp)
-                      <tr>
-                        <th scope="row">{{ $loop->iteration }}</th>
-                        <td>
-                            {{ $cvp->attributes->Provinsi }}
-                        </td>
-                        <td>
-                          {{ $cvp->attributes->Kasus_Posi }}
-                        </td>
-                        <td>
-                            {{ $cvp->attributes->Kasus_Semb }}
-                        </td>
-                        <td>
-                            {{ $cvp->attributes->Kasus_Meni }}
-                        </td>
-                      </tr>
-                      @endforeach
+                        @if($covidprov != null){
+                            @foreach ($covidprov as $cvp)
+                        <tr>
+                            <th scope="row">{{ $loop->iteration }}</th>
+                            <td>
+                                {{ $cvp->attributes->Provinsi }}
+                            </td>
+                            <td>
+                            {{ $cvp->attributes->Kasus_Posi }}
+                            </td>
+                            <td>
+                                {{ $cvp->attributes->Kasus_Semb }}
+                            </td>
+                            <td>
+                                {{ $cvp->attributes->Kasus_Meni }}
+                            </td>
+                        </tr>
+                        @endforeach
+                        }
+                        @endif
                     </tbody>
                   </table>
                 </div>

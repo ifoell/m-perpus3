@@ -19,15 +19,15 @@ class RolesController extends Controller
             return Datatables::of(Roles::latest()->get())
                     ->addIndexColumn()
                     ->addColumn('action', function($data){
-                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editPublisher"><ion-icon name="create"></ion-icon></a>';
-                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deletePublisher"><ion-icon name="trash"></ion-icon></a>';
+                        $btn = '<a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Edit" class="edit btn btn-primary btn-sm editRole"><ion-icon name="create"></ion-icon></a>';
+                        $btn = $btn.' <a href="javascript:void(0)" data-toggle="tooltip"  data-id="'.$data->id.'" data-original-title="Delete" class="btn btn-danger btn-sm deleteRole"><ion-icon name="trash"></ion-icon></a>';
                         return $btn;
                     })
                     ->rawColumns(['action'])
                     ->make(true);
         }
 
-        return view('roles.index');
+        // return view('roles.index');
     }
 
     /**
@@ -48,7 +48,12 @@ class RolesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Roles::updateOrCreate(['id' => $request->role_id],
+                    ['name' => $request->name,
+                    'is_active' => $request->is_active]
+                );
+
+        return response()->json(['success' => 'Role Saved successfully']);
     }
 
     /**
@@ -68,9 +73,10 @@ class RolesController extends Controller
      * @param  \App\Roles  $roles
      * @return \Illuminate\Http\Response
      */
-    public function edit(Roles $roles)
+    public function edit($id)
     {
-        //
+        $role = Roles::find($id);
+        return response()->json($role);
     }
 
     /**
@@ -91,8 +97,10 @@ class RolesController extends Controller
      * @param  \App\Roles  $roles
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Roles $roles)
+    public function destroy($id)
     {
-        //
+        Publisher::find($id)->delete();
+
+        return response()->json(['success' => 'Role deleted successfully']);
     }
 }

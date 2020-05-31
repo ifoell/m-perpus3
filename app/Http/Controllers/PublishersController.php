@@ -27,7 +27,7 @@ class PublishersController extends Controller
                     ->make(true);
         }
 
-        // return view('publisher.index');
+        return view('publisher.index');
     }
 
     /**

@@ -44,10 +44,12 @@
                             <td><b>Editor</b></td>
                             <td>: {{ $book->editor }}</td>
                         </tr>
+                        @if ($book->copy_editor != null)
                         <tr>
                             <td><b>Copy Editor</b></td>
                             <td>: {{ $book->copy_editor }}</td>
                         </tr>
+                        @endif
                         <tr>
                             <td><b>Publisher</b></td>
                             <td>: {{ $book->publisher->name }}</td>

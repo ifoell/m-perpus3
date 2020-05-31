@@ -75,7 +75,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="lockout_time" class="form-control-label">Lock Time (in Minutes)</label>
-                                    <input type="number" name="lockout_time" id="lockout_time" class="form-control" placeholder="Input Lock Time Minutes" value="10" required autocomplete="lockout_time" value="{{ $user[0]->lockout_time }}">
+                                    <input type="number" name="lockout_time" id="lockout_time" class="form-control" placeholder="Input Lock Time Minutes" required autocomplete="lockout_time" value="{{ $user[0]->lockout_time }}">
                                 </div>
                             </div>
                             <div class="col-md-2">
