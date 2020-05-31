@@ -81,9 +81,9 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 # **M-Perpus**
 
 **Comment MenuController in vendor->harimayco->laravel-menu->src->Controllers->MenuController.php**
-// if (config('menu.use_roles')) {
-//     $menuitem->role_id = request()->input("role_id");
-// }
+1. // if (config('menu.use_roles')) {
+2. //     $menuitem->role_id = request()->input("role_id");
+3. // }
 
 **Package using :**
 1. Dynamic Menu using harimayco package
